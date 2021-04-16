@@ -1,0 +1,38 @@
+---
+title: "Test Date Functions"
+author: "Scott Briggs"
+date: "4/15/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(here)
+source(here("src", "date.R"))
+```
+
+
+```{r Test Julian Day, echo=FALSE}
+sprintf("Julian Day for 1957 October 4.81 = %f", julianDayFrac(10, 4.81, 1957))
+sprintf("Julian Day for January 27 at 12 noon for year 333 = %f", julianDayFrac(1, 27.5, 333))
+sprintf("Julian Day for 2000 January 1.5 = %f", julianDayFrac(1, 1.5, 2000))
+sprintf("Julian Day for 1987 January 27 = %f", julianDayFrac(1, 27, 1987))
+sprintf("Julian Day for 1987 June 19.5 = %f", julianDayFrac(6, 19.5, 1987))
+sprintf("Julian Day for 1988 January 27 = %f", julianDayFrac(1, 27, 1988))
+sprintf("Julian Day for 1988 June 19.5 = %f", julianDayFrac(6, 19.5, 1988))
+sprintf("Julian Day for 1900 January 1 = %f", julianDayFrac(1, 1, 1900))
+sprintf("Julian Day for 1600 January 1 = %f", julianDayFrac(1, 1, 1600))
+sprintf("Julian Day for 1600 December 31 = %f", julianDayFrac(12, 31, 1600))
+sprintf("Julian Day for 837 April 10.3 = %f", julianDayFrac(4, 10.3, 837))
+sprintf("Julian Day for -1000 July 12.5 = %f", julianDayFrac(7, 12.5, -1000))
+sprintf("Julian Day for -1000 February 29 = %f", julianDayFrac(2, 29, -1000))
+sprintf("Julian Day for -1001 August 17.9 = %f", julianDayFrac(8, 17.9, -1001))
+sprintf("Julian Day for -4712 January 1.5 = %f", julianDayFrac(1, 1.5, -4712))
+sprintf("Julian Day for -4713 January 1.5 = %f", julianDayFrac(1, 1.5, -4713))
+sprintf("Julian Day for -4714 January 1.5 = %f", julianDayFrac(1, 1.5, -4714))
+sprintf("Julian Day for -4713 January 1.5 = %f", julianDayFrac(1, 1.5, -4713))
+sprintf("Julian Day for -13200 January 1.5 = %f", julianDayFrac(1, 1.5, -13200))
+sprintf("Julian Day for 17191 January 1.5 = %f", julianDayFrac(1, 1.5, 17191))
+```
+
+
