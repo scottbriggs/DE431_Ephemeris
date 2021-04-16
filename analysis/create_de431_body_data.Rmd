@@ -1,0 +1,65 @@
+---
+title: "create_de431_body_data"
+author: "Scott Briggs"
+date: "4/15/2021"
+output: html_document
+---
+
+# Create a csv file that describes how to access the data for each solar system body so that the data can be added to a database
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(here)
+```
+
+# Build the data frame
+```{r create data, echo=FALSE}
+# Body
+de431_body <- c("Mercury", "Venus", "Earth-Moon Barycenter", "Mars", "Jupiter",
+                "Saturn", "Uranus", "Neptune", "Pluto", "Moon", "Sun",
+                "Earth Nutations- Longitude and Obliquity, IAU 1980",
+                "Lunar Mantle Libration",
+                "Lunar Mantle Angular Velocity", "TT-TDB")
+
+# Number of Properties
+de431_properties <- c(3,3,3,3,3,3,3,3,3,3,3,2,3,3,1)
+
+# Units
+de431_units <- c("Kilometers", "Kilometers", "Kilometers", "Kilometers", 
+                 "Kilometers","Kilometers", "Kilometers", "Kilometers", 
+                 "Kilometers", "Kilometers","Kilometers", "Radians", "Radians",
+                 "Radians Per Day", "Seconds")
+
+# Center
+de431_center <- c("Solar System Barycenter", "Solar System Barycenter",
+                  "Solar System Barycenter", "Solar System Barycenter",
+                  "Solar System Barycenter", "Solar System Barycenter",
+                  "Solar System Barycenter", "Solar System Barycenter",
+                  "Solar System Barycenter", "Earth", "Solar System Barycenter",
+                  "NA", "NA", "NA", "NA")
+
+# Start Offset
+de431_start_offset <- c(3, 171, 231, 309, 342, 366, 387, 405, 423, 441, 753,
+                        819, 899, 1019, 1019)
+
+# Number of Coefficients
+de431_num_coefficients <- c(14, 10, 13, 11, 8, 7, 6, 6, 6, 13, 11, 10, 10, 0, 0)
+
+# Number of Subintervals
+de431_num_subintervals <- c(4, 2, 2, 1, 1, 1, 1, 1, 1, 8, 2, 4, 4, 0, 0)
+
+# Create data frame
+df <- data.frame(de431_body, de431_units, de431_center, de431_properties,
+                 de431_start_offset, de431_num_coefficients,
+                 de431_num_subintervals)
+
+# Add column names
+colnames(df) <- c("BODY", "UNITS", "CENTER", "PROPERTIES", "START OFFSET",
+                  "COEFFICIENTS", "SUBINTERVALS")
+```
+
+# Write csv file
+```{r write data to csv file, echo=FALSE}
+here("data", "processed", "de431body.csv")
+write.csv(df, here("data", "processed", "de431body.csv"), row.names = FALSE)
+```
