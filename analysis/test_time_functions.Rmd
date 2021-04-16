@@ -1,0 +1,34 @@
+---
+title: "test_time_functions"
+author: "Scott Briggs"
+date: "4/15/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(here)
+source(here("src", "time.R"))
+```
+
+```{r Test Hours, Minutes, Seconds to Decimal HOurs, echo=FALSE}
+hr <- 20
+min <- 24
+seconds <- 54
+sprintf("20 hours, 24 minutes, and 54 seconds = %f decimal hours", HHdd(hr, min, seconds))
+
+hr <- 20
+min <- 44
+seconds <- 54
+sprintf("20 hours, 44 minutes, and 54 seconds = %f decimal hours", HHdd(hr, min, seconds))
+```
+
+```{r Test Decimals Hours to Hours, Minutes, Seconds, echo=FALSE}
+decimalhr <- 4.50
+c <- HHMMSS(decimalhr)
+sprintf("%f decimal hours = %d hours, %d minutes, and %d seconds", decimalhr, c[1], c[2], c[3])
+
+decimalhr <- 4.20
+c <- HHMMSS(decimalhr)
+sprintf("%f decimal hours = %d hours, %d minutes, and %d seconds", decimalhr, c[1], c[2], c[3])
+```
