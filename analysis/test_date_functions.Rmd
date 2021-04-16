@@ -35,4 +35,28 @@ sprintf("Julian Day for -13200 January 1.5 = %f", julianDayFrac(1, 1.5, -13200))
 sprintf("Julian Day for 17191 January 1.5 = %f", julianDayFrac(1, 1.5, 17191))
 ```
 
+```{r Test Date of Easter, echo=FALSE}
+year = 1991
+c <- dateOfEaster(year)
+sprintf("Date of Easter for year %s is %s %s", year, c[1], c[2])
 
+year = 1992
+c <- dateOfEaster(year)
+sprintf("Date of Easter for year %s is %s %s", year, c[1], c[2])
+
+year = 1993
+c <- dateOfEaster(year)
+sprintf("Date of Easter for year %s is %s %s", year, c[1], c[2])
+
+year = 1954
+c <- dateOfEaster(year)
+sprintf("Date of Easter for year %s is %s %s", year, c[1], c[2])
+
+year = 2000
+c <- dateOfEaster(year)
+sprintf("Date of Easter for year %s is %s %s", year, c[1], c[2])
+
+year = 1818
+c <- dateOfEaster(year)
+sprintf("Date of Easter for year %s is %s %s", year, c[1], c[2])
+```
