@@ -1,0 +1,56 @@
+---
+title: "create_de431_header_data"
+author: "Scott Briggs"
+date: "4/16/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(readr)
+library(here)
+```
+
+# Read in the DE431 emphemeris header names
+```{r read de431 ephemeris header names, echo=FALSE}
+here("data", "raw", "de431_header_names")
+de431_header_names <- read_csv(here("data", "raw", "de431_header_names"),
+                               col_names = FALSE)
+```
+
+# Read in the DE431 emphemeris header name values
+```{r read de431 ephemeris header name values, echo=FALSE}
+here("data", "raw", "de431_header_name_values")
+de431_header_name_values <- read_csv(here("data", "raw", "de431_header_name_values"),
+                                     col_names = FALSE)
+```
+
+# Convert to a data frame
+```{r convert to dataframe, echo=FALSE}
+df <- data.frame(de431_header_names, de431_header_name_values)
+
+# Add column names
+colnames(df) <- c("HEADER_NAME", "HEADER_VALUE")
+```
+
+# Convert the character strings to numeric values
+```{r Convert strings to numeric values, echo=FALSE}
+for (i in 1:572) {
+  temp_str <- as.character(df[i,2])
+  temp_str <- chartr(old = "D", new = "E", temp_str)
+  df[i,2] <- as.numeric(temp_str)
+}
+```
+
+# Write to csv file
+```{r write csv file, echo=FALSE}
+here("data", "processed", "de431header.csv")
+write.csv(df, here("data", "processed", "de431header.csv"), row.names = FALSE)
+```
+
+
+
+
+
+
+
