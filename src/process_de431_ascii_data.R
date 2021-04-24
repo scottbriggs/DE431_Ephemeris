@@ -2,7 +2,7 @@
 # This script will take a de431 ascii file, parse the file so that each coordinate
 # and Julian Day are stored in a single column, and output as a RDS file.
 
-proces_de431_ascii_data <- function(filename)
+process_de431_ascii_data <- function(filename)
 {
   # Read in the ascii file
   ascii_data <- readLines(here("data", "raw", filename))
