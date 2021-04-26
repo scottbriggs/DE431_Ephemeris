@@ -1,6 +1,6 @@
 
 # Takes a RDS file of DE431 body data and writes out a csv file of data
-# for mercury to be ingested into a database
+# for Mercury to be ingested into a database
 
 create_mercury_csv <- function(filename)
 {
@@ -20,7 +20,7 @@ create_mercury_csv <- function(filename)
   colnames(temp) <- mercury_col_names
   mercury = as.data.table(temp)
   
-  # Populate the intervals for mercury
+  # Populate the intervals for Mercury
   for (i in seq(from = 1L, to = 45660L, by = 4L)){
     set(mercury, i, "INTERVAL", 1)
     set(mercury, i+1L, "INTERVAL", 2)
@@ -28,7 +28,7 @@ create_mercury_csv <- function(filename)
     set(mercury, i+3L, "INTERVAL", 4)
   }
   
-  # Populate the Julian Days for mercury
+  # Populate the Julian Days for Mercury
   j <- 1L
   for (i in seq(from = 1L, to = 45660L, by = 4L)){
     set(mercury, i, "Julian_Day_Start", DT[j, 1L])
@@ -78,7 +78,7 @@ create_mercury_csv <- function(filename)
     k <- k + 1020L
   }
   
-  # Write csv file for mercury
+  # Write csv file for Mercury
   new_filename <- substr(filename, 1, 9)
   new_filename <- paste(new_filename, "_mercury.csv", sep = "")
   write.csv(mercury, here("data", "processed", new_filename), row.names = FALSE)
