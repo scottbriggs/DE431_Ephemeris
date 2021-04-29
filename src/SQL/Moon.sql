@@ -1,4 +1,4 @@
-CREATE TABLE Sun (
+CREATE TABLE Moon (
     Julian_Day_Start REAL NOT NULL
   , Julian_Day_End REAL NOT NULL
   , X1 REAL NOT NULL
