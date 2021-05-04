@@ -2,18 +2,18 @@
 # Takes a RDS file of DE431 body data and writes out a csv file of data
 # for Mars to be ingested into a database
 
-create_mars_csv <- function(filename)
+populate_mars_data <- function(filename, db_conn)
 {
   # Read ascii data
   DT <- readRDS(here("data", "processed", filename))
   
   # Column names for Mars
-  mars_col_names <- c("Julian_Day_Start", "Julian_Day_End",
+  mars_col_names <- c("Julian_Day_Start", "Julian_Day_End", "INTERVAL",
                        "X1", "X2", "X3", "X4", "X5", "X6", "X7", "X8", "X9",
                        "X10", "X11", "X12", "X13", "X14", "Y1", "Y2", "Y3", "Y4",
                        "Y5", "Y6", "Y7", "Y8", "Y9", "Y10", "Y11", "Y12", "Y13",
                        "Y14", "Z1", "Z2", "Z3", "Z4", "Z5", "Z6", "Z7", "Z8",
-                       "Z9", "Z10", "Z11", "Z12", "Z13", "Z14", "INTERVAL")
+                       "Z9", "Z10", "Z11", "Z12", "Z13", "Z14")
   
   # Create table for Mars
   temp = matrix(0.0,nrow=11415,ncol=45)
@@ -43,7 +43,10 @@ create_mars_csv <- function(filename)
   }
   
   # Write csv file for Venus
-  new_filename <- substr(filename, 1, 9)
-  new_filename <- paste(new_filename, "_mars.csv", sep = "")
-  write.csv(mars, here("data", "processed", new_filename), row.names = FALSE)
+  #new_filename <- substr(filename, 1, 9)
+  #new_filename <- paste(new_filename, "_mars.csv", sep = "")
+  #write.csv(mars, here("data", "processed", new_filename), row.names = FALSE)
+  
+  dbAppendTable(db_conn, "Mars", mars, row.names = NULL)
+  
 }
