@@ -42,38 +42,38 @@ populate_mercury_data <- function(filename, db_conn)
     j <- j + 1020L
   }
   
-  # Populate subinternval 1
+  # Populate subinterval 1
   k <- 0L
   for (i in seq(from = 1L, to = 45660L, by = 4L)){
     for (j in seq(from = 3L, to = 44L, by = 1L)){
-      set(mercury, i, j, DT[j+k, 1L])
+      set(mercury, i, j+1L, DT[j+k, 1L])
     }
     k <- k + 1020L
   }
   
-  # Populate subinternval 2
+  # Populate subinterval 2
   k <- 42L
   for (i in seq(from = 2L, to = 45660L, by = 4L)){
     for (j in seq(from = 3L, to = 44L, by = 1L)){
-      set(mercury, i, j, DT[j+k, 1L])
+      set(mercury, i, j+1L, DT[j+k, 1L])
     }
     k <- k + 1020L
   }
   
-  # Populate subinternval 3
+  # Populate subinterval 3
   k <- 84L
   for (i in seq(from = 3L, to = 45660L, by = 4L)){
     for (j in seq(from = 3L, to = 44L, by = 1L)){
-      set(mercury, i, j, DT[j+k, 1L])
+      set(mercury, i, j+1L, DT[j+k, 1L])
     }
     k <- k + 1020L
   }
   
-  # Populate subinternval 4
+  # Populate subinterval 4
   k <- 126L
   for (i in seq(from = 4L, to = 45660L, by = 4L)){
     for (j in seq(from = 3L, to = 44L, by = 1L)){
-      set(mercury, i, j, DT[j+k, 1L])
+      set(mercury, i, j+1L, DT[j+k, 1L])
     }
     k <- k + 1020L
   }

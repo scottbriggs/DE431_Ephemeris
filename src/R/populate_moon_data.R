@@ -54,74 +54,74 @@ populate_moon_data <- function(filename, db_conn)
     j <- j + 1020L
   }
   
-  # Populate subinternval 1
+  # Populate subinterval 1
   k <- 438L
   for (i in seq(from = 1L, to = 91320L, by = 8L)){
     for (j in seq(from = 3L, to = 44L, by = 1L)){
-      set(moon, i, j, DT[j+k, 1L])
+      set(moon, i, j+1L, DT[j+k, 1L])
     }
     k <- k + 1020L
   }
   
-  # Populate subinternval 2
+  # Populate subinterval 2
   k <- 477L
   for (i in seq(from = 2L, to = 91320L, by = 8L)){
     for (j in seq(from = 3L, to = 44L, by = 1L)){
-      set(moon, i, j, DT[j+k, 1L])
+      set(moon, i, j+1L, DT[j+k, 1L])
     }
     k <- k + 1020L
   }
   
-  # Populate subinternval 3
+  # Populate subinterval 3
   k <- 516L
   for (i in seq(from = 3L, to = 91320L, by = 8L)){
     for (j in seq(from = 3L, to = 44L, by = 1L)){
-      set(moon, i, j, DT[j+k, 1L])
+      set(moon, i, j+1L, DT[j+k, 1L])
     }
     k <- k + 1020L
   }
   
-  # Populate subinternval 4
+  # Populate subinterval 4
   k <- 555L
   for (i in seq(from = 4L, to = 91320L, by = 8L)){
     for (j in seq(from = 3L, to = 44L, by = 1L)){
-      set(moon, i, j, DT[j+k, 1L])
+      set(moon, i, j+1L, DT[j+k, 1L])
     }
     k <- k + 1020L
   }
   
-  # Populate subinternval 5
+  # Populate subinterval 5
   k <- 594L
   for (i in seq(from = 5L, to = 91320L, by = 8L)){
     for (j in seq(from = 3L, to = 44L, by = 1L)){
-      set(moon, i, j, DT[j+k, 1L])
+      set(moon, i, j+1L, DT[j+k, 1L])
     }
     k <- k + 1020L
   }
   
-  # Populate subinternval 6
+  # Populate subinterval 6
   k <- 633L
   for (i in seq(from = 6L, to = 91320L, by = 8L)){
     for (j in seq(from = 3L, to = 44L, by = 1L)){
-      set(moon, i, j, DT[j+k, 1L])
+      set(moon, i, j+1L, DT[j+k, 1L])
     }
     k <- k + 1020L
   }
   
-  # Populate subinternval 7
+  # Populate subinterval 7
   k <- 672L
   for (i in seq(from = 7L, to = 91320L, by = 8L)){
     for (j in seq(from = 3L, to = 44L, by = 1L)){
-      set(moon, i, j, DT[j+k, 1L])
+      set(moon, i, j+1L, DT[j+k, 1L])
     }
     k <- k + 1020L
   }
   
-  # Populate subinternval 8
+  # Populate subinterval 8
   k <- 711L
   for (i in seq(from = 8L, to = 91320L, by = 8L)){
     for (j in seq(from = 3L, to = 44L, by = 1L)){
-      set(moon, i, j, DT[j+k, 1L])
+      set(moon, i, j+1L, DT[j+k, 1L])
     }
     k <- k + 1020L
   }

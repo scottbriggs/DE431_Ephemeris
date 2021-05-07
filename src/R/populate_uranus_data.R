@@ -33,11 +33,11 @@ populate_uranus_data <- function(filename, db_conn)
     j <- j + 1020L
   }
   
-  # Populate subinternval 1
+  # Populate subinterval 1
   k <- 384L
   for (i in seq(from = 1L, to = 11415L, by = 1L)){
     for (j in seq(from = 3L, to = 44L, by = 1L)){
-      set(uranus, i, j, DT[j+k, 1L])
+      set(uranus, i, j+1L, DT[j+k, 1L])
     }
     k <- k + 1020L
   }
