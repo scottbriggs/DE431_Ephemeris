@@ -7,7 +7,7 @@ populate_mercury_data <- function(filename, db_conn)
   # Read ascii data
   DT <- readRDS(here("data", "processed", filename))
   
-  # Column names for Mercury
+  # Column names for Mercury, which has 14 coefficients for X, Y, and Z
   mercury_col_names <- c("Julian_Day_Start", "Julian_Day_End", "INTERVAL",
                          "X1", "X2", "X3", "X4", "X5", "X6", "X7", "X8", "X9",
                          "X10", "X11", "X12", "X13", "X14", "Y1", "Y2", "Y3", "Y4",

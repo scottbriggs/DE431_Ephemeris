@@ -1,0 +1,16 @@
+"BODY","UNITS","CENTER","PROPERTIES","START OFFSET","COEFFICIENTS","SUBINTERVALS"
+"Mercury","Kilometers","Solar System Barycenter",3,3,14,4
+"Venus","Kilometers","Solar System Barycenter",3,171,10,2
+"Earth-Moon Barycenter","Kilometers","Solar System Barycenter",3,231,13,2
+"Mars","Kilometers","Solar System Barycenter",3,309,11,1
+"Jupiter","Kilometers","Solar System Barycenter",3,342,8,1
+"Saturn","Kilometers","Solar System Barycenter",3,366,7,1
+"Uranus","Kilometers","Solar System Barycenter",3,387,6,1
+"Neptune","Kilometers","Solar System Barycenter",3,405,6,1
+"Pluto","Kilometers","Solar System Barycenter",3,423,6,1
+"Moon","Kilometers","Earth",3,441,13,8
+"Sun","Kilometers","Solar System Barycenter",3,753,11,2
+"Earth Nutations- Longitude and Obliquity, IAU 1980","Radians","NA",2,819,10,4
+"Lunar Mantle Libration","Radians","NA",3,899,10,4
+"Lunar Mantle Angular Velocity","Radians Per Day","NA",3,1019,0,0
+"TT-TDB","Seconds","NA",1,1019,0,0

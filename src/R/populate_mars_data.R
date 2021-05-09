@@ -10,13 +10,13 @@ populate_mars_data <- function(filename, db_conn)
   # Column names for Mars
   mars_col_names <- c("Julian_Day_Start", "Julian_Day_End", "INTERVAL",
                        "X1", "X2", "X3", "X4", "X5", "X6", "X7", "X8", "X9",
-                       "X10", "X11", "X12", "X13", "X14", "Y1", "Y2", "Y3", "Y4",
-                       "Y5", "Y6", "Y7", "Y8", "Y9", "Y10", "Y11", "Y12", "Y13",
-                       "Y14", "Z1", "Z2", "Z3", "Z4", "Z5", "Z6", "Z7", "Z8",
-                       "Z9", "Z10", "Z11", "Z12", "Z13", "Z14")
+                       "X10", "X11", " Y1", "Y2", "Y3", "Y4",
+                       "Y5", "Y6", "Y7", "Y8", "Y9", "Y10", "Y11",
+                       "Z1", "Z2", "Z3", "Z4", "Z5", "Z6", "Z7", "Z8",
+                       "Z9", "Z10", "Z11")
   
   # Create table for Mars
-  temp = matrix(0.0,nrow=11415,ncol=45)
+  temp = matrix(0.0,nrow=11415,ncol=36)
   colnames(temp) <- mars_col_names
   mars = as.data.table(temp)
   
@@ -36,7 +36,7 @@ populate_mars_data <- function(filename, db_conn)
   # Populate subinterval 1
   k <- 306L
   for (i in seq(from = 1L, to = 11415L, by = 1L)){
-    for (j in seq(from = 3L, to = 44L, by = 1L)){
+    for (j in seq(from = 3L, to = 35L, by = 1L)){
       set(mars, i, j+1L, DT[j+k, 1L])
     }
     k <- k + 1020L
