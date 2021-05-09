@@ -43,27 +43,43 @@ calculate_position_mercury <- function(con, jd)
    temp <- jd - valid_start
    x <- (temp / length_of_subinterval * 2.0) - 1.0
    
-   # Calculate the Chebyshev polynomial
-   chebyshev <- data.frame(matrix(0.0, nrow=14, ncol=1))
-   chebyshev[1,1] <- 1
+   # Calculate the Chebyshev polynomials for position and velocity. The velocity
+   # is the first derivative of the position polynomial
+   chebyshev <- data.frame(matrix(0.0, nrow=14, ncol=2))
+   chebyshev[1,1] <- 1.0
    chebyshev[2,1] <- x
+   chebyshev[1,2] <- 0.0
+   chebyshev[2,2] <- 1.0
    
+   # Calculate the position polynomial
    for (i in seq(from = 3, to = 14, by = 1)){
       chebyshev[i,1] <- (2 * x * chebyshev[i-1,1]) - chebyshev[i-2,1]
    }
    
-   # Calculate the position
+   # Calculate the velocity polynomial
+   for (i in seq(from = 3, to = 14, by = 1)){
+      chebyshev[i,2] <- (2 * x * chebyshev[i-1,2]) - chebyshev[i-2,2] + (2 * chebyshev[i-1,1])
+   }
+   
+   # Calculate the position in kilometers and the velocity in kilometers/sec
    pos_vel <- data.frame(matrix(0.0, nrow=3, ncol=2))
    v <- 0
    for (v in seq(from = 14, to = 1, by = -1)){
       pos_vel[1,1] <- pos_vel[1,1] + (chebyshev[v,1] * mercury_df[1,v])
       pos_vel[2,1] <- pos_vel[2,1] + (chebyshev[v,1] * mercury_df[1,v+14])
       pos_vel[3,1] <- pos_vel[3,1] + (chebyshev[v,1] * mercury_df[1,v+28])
+      
+      pos_vel[1,2] <- pos_vel[1,2] + (chebyshev[v,2] * mercury_df[1,v])
+      pos_vel[2,2] <- pos_vel[2,2] + (chebyshev[v,2] * mercury_df[1,v+14])
+      pos_vel[3,2] <- pos_vel[3,2] + (chebyshev[v,2] * mercury_df[1,v+28])
    }
    
-   return(pos_vel)
-   
-   # Calculate the velocity
+   # Scale the velocity
+   scale_value <- 2 * num_subintervals / 32
+   pos_vel[1,2] = pos_vel[1,2] * scale_value
+   pos_vel[2,2] = pos_vel[2,2] * scale_value
+   pos_vel[3,2] = pos_vel[3,2] * scale_value
    
    # Return the data
+   return(pos_vel)
 }

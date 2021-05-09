@@ -1,13 +1,8 @@
 
 # Populate the database for all de431 solar system bodies plus the header
 # and body data
-populate_database <- function()
+populate_database <- function(con)
 {
-  con <- dbConnect(RSQLite::SQLite(), here("data", "database", "de431.db"))
-  
-  create_de431_db_tables(con)
-  dbListTables(con)
-  
   filelist <- c("ascm01000.rds",
                 "ascm02000.rds",
                 "ascm03000.rds",
@@ -53,5 +48,4 @@ populate_database <- function()
     populate_sun_data(filelist[i], con)
   }
   
-  dbDisconnect(con)
 }
