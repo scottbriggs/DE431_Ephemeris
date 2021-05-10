@@ -1,17 +1,17 @@
 
-# Calculate the position and velocity of Jupiter
+# Calculate the position and velocity of Saturn
 
-calculate_position_jupiter <- function(con, jd)
+calculate_position_saturn <- function(con, jd)
 {
   # Days per Block is 32 for DE431
   days_per_block <- 32
   
   # Calculate the subinterval
-  query <- "SELECT Subintervals FROM DE431Body WHERE Body = 'Jupiter'"
+  query <- "SELECT Subintervals FROM DE431Body WHERE Body = 'Saturn'"
   num_subintervals <- dbGetQuery(con, query)
   length_of_subinterval <- days_per_block / num_subintervals
   
-  str1 <- paste("SELECT DISTINCT Julian_Day_Start FROM Jupiter WHERE Julian_Day_Start <=",
+  str1 <- paste("SELECT DISTINCT Julian_Day_Start FROM Saturn WHERE Julian_Day_Start <=",
                 jd,
                 "AND Julian_Day_End >=",
                 jd,
@@ -24,18 +24,18 @@ calculate_position_jupiter <- function(con, jd)
   # subinterval begins with 0, but they begin with 1 in the database
   subinterval <- subinterval + 1
   
-  # Get the data for Jupiter
-  str2 <- paste("SELECT DISTINCT X1, X2, X3, X4, X5, X6, X7, X8,",
-                "Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,",
-                "Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8",
-                "FROM Jupiter WHERE",
+  # Get the data for Saturn
+  str2 <- paste("SELECT DISTINCT X1, X2, X3, X4, X5, X6, X7,",
+                "Y1, Y2, Y3, Y4, Y5, Y6, Y7,",
+                "Z1, Z2, Z3, Z4, Z5, Z6, Z7",
+                "FROM Saturn WHERE",
                 jd,
                 ">= Julian_Day_Start AND",
                 jd,
                 "<= Julian_Day_End AND Interval = ",
                 subinterval)
   
-  jupiter_df <- dbGetQuery(con, str2)
+  saturn_df <- dbGetQuery(con, str2)
   
   # Normalize the Julian Day
   valid_start <- jd_block_start + ((subinterval-1) * length_of_subinterval)
@@ -45,33 +45,33 @@ calculate_position_jupiter <- function(con, jd)
   
   # Calculate the Chebyshev polynomials for position and velocity. The velocity
   # is the first derivative of the position polynomial
-  chebyshev <- data.frame(matrix(0.0, nrow=8, ncol=2))
+  chebyshev <- data.frame(matrix(0.0, nrow=7, ncol=2))
   chebyshev[1,1] <- 1.0
   chebyshev[2,1] <- x
   chebyshev[1,2] <- 0.0
   chebyshev[2,2] <- 1.0
   
   # Calculate the position polynomial
-  for (i in seq(from = 3, to = 8, by = 1)){
+  for (i in seq(from = 3, to = 7, by = 1)){
     chebyshev[i,1] <- (2 * x * chebyshev[i-1,1]) - chebyshev[i-2,1]
   }
   
   # Calculate the velocity polynomial
-  for (i in seq(from = 3, to = 8, by = 1)){
+  for (i in seq(from = 3, to = 7, by = 1)){
     chebyshev[i,2] <- (2 * x * chebyshev[i-1,2]) - chebyshev[i-2,2] + (2 * chebyshev[i-1,1])
   }
   
   # Calculate the position in kilometers and the velocity in kilometers/sec
   pos_vel <- data.frame(matrix(0.0, nrow=3, ncol=2))
   v <- 0
-  for (v in seq(from = 8, to = 1, by = -1)){
-    pos_vel[1,1] <- pos_vel[1,1] + (chebyshev[v,1] * jupiter_df[1,v])
-    pos_vel[2,1] <- pos_vel[2,1] + (chebyshev[v,1] * jupiter_df[1,v+8])
-    pos_vel[3,1] <- pos_vel[3,1] + (chebyshev[v,1] * jupiter_df[1,v+16])
+  for (v in seq(from = 7, to = 1, by = -1)){
+    pos_vel[1,1] <- pos_vel[1,1] + (chebyshev[v,1] * saturn_df[1,v])
+    pos_vel[2,1] <- pos_vel[2,1] + (chebyshev[v,1] * saturn_df[1,v+7])
+    pos_vel[3,1] <- pos_vel[3,1] + (chebyshev[v,1] * saturn_df[1,v+14])
     
-    pos_vel[1,2] <- pos_vel[1,2] + (chebyshev[v,2] * jupiter_df[1,v])
-    pos_vel[2,2] <- pos_vel[2,2] + (chebyshev[v,2] * jupiter_df[1,v+8])
-    pos_vel[3,2] <- pos_vel[3,2] + (chebyshev[v,2] * jupiter_df[1,v+16])
+    pos_vel[1,2] <- pos_vel[1,2] + (chebyshev[v,2] * saturn_df[1,v])
+    pos_vel[2,2] <- pos_vel[2,2] + (chebyshev[v,2] * saturn_df[1,v+7])
+    pos_vel[3,2] <- pos_vel[3,2] + (chebyshev[v,2] * saturn_df[1,v+14])
   }
   
   # Scale the velocity

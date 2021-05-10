@@ -11,7 +11,7 @@ calculate_position_venus <- function(con, jd)
   num_subintervals <- dbGetQuery(con, query)
   length_of_subinterval <- days_per_block / num_subintervals
   
-  str1 <- paste("SELECT Julian_Day_Start FROM Venus WHERE Julian_Day_Start <=",
+  str1 <- paste("SELECT DISTINCT Julian_Day_Start FROM Venus WHERE Julian_Day_Start <=",
                 jd,
                 "AND Julian_Day_End >=",
                 jd,
@@ -25,7 +25,7 @@ calculate_position_venus <- function(con, jd)
   subinterval <- subinterval + 1
   
   # Get the data for Venus
-  str2 <- paste("SELECT X1, X2, X3, X4, X5, X6, X7, X8, X9, X10,",
+  str2 <- paste("SELECT DISTINCT X1, X2, X3, X4, X5, X6, X7, X8, X9, X10,",
                 "Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8, Y9, Y10,",
                 "Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8, Z9, Z10",
                 "FROM Venus WHERE",
