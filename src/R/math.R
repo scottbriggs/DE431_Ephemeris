@@ -5,7 +5,6 @@
 dot_product <- function(x, y)
 {
   result <- 0.0
-  
   for (i in 1:length(x)){
     result <- result + x[i] * y[i]
   }
@@ -17,7 +16,6 @@ dot_product <- function(x, y)
 cross_product <- function(x, y)
 {
   result <- c(0.0, 0.0, 0.0)
-  
   for (i in 1:length(x)){
     result[1] <- x[2] * y[3] - x[3] * y[2]
     result[2] <- x[3] * y[1] - x[1] * y[3]
