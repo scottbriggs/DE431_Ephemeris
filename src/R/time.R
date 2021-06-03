@@ -9,11 +9,12 @@ HHMMSS <- function (HHdd)
     mm <- trunc(temp)
     ss = trunc((temp - mm) * 60)
     
-    c(hh, mm, ss)
+    return(c(hh, mm, ss))
 }
 
 # Converts hours, minutes, and seconds to decimal hours
 HHdd <- function (hr, min, sec)
 {
     decimal_hours <- hr + min  /60 + sec / 3600
+    return(decimal_hours)
 }

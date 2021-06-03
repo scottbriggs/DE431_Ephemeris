@@ -3,7 +3,8 @@
 # for any date in the common era (CE) or before the common era (BCE).
 # The Julian Day is calculated for a calendar date at 12 noon, which means that
 # the day is an integer, i.e., there is no fractional day allowed.
-julianDay <- function(month, day, year)
+
+julian_day <- function(month, day, year)
 {
     # Calculates the julian day for a calendar date at 12 noon. This means that 
     #the day is an integer
@@ -43,7 +44,8 @@ julianDay <- function(month, day, year)
 # for any date in the common era (CE) or before the common era (BCE).
 # The Julian Day is calculated for a calendar date that allows for a decimal
 # day.
-julianDayFrac <- function(month, day, year)
+
+julian day_frac <- function(month, day, year)
 {
     # Day is a decimal 
     int_day <- trunc(day)
@@ -60,7 +62,7 @@ julianDayFrac <- function(month, day, year)
     return(julday)
 }
 
-calendarDate1 <- function(julday)
+calendar_date1 <- function(julday)
 {
     julday <- -57
     IGREG <- 2299161
@@ -103,7 +105,8 @@ calendarDate1 <- function(julday)
 
 # Calculate the calendar date given a julian day number.
 # Works for julian and calendar dates from January 1, -4712.
-calendarDate <- function(jd)
+
+calendar_date <- function(jd)
 {
     jd <- jd + 0.50
     
@@ -147,12 +150,13 @@ calendarDate <- function(jd)
         year <- c - 4715
     }
     
-    c(year, month, day)
+    return(c(year, month, day))
 }
 
 # Determines the day of the week given a calendar date. Works for Julian and 
 # Gregorian calendars.
-dayOfWeek <- function(year, month, day)
+
+day_of_week <- function(year, month, day)
 {
     d <- trunc(day)
     jd <- julianDay(year, month, d)
@@ -179,7 +183,8 @@ dayOfWeek <- function(year, month, day)
 }
 
 # Calculates the date of Christian Easter
-dateOfEaster <- function(year)
+
+date_of_easter <- function(year)
 {
     month <- 0
     day <- 0
@@ -220,5 +225,5 @@ dateOfEaster <- function(year)
         monthStr <- "March"
     } else { monthStr <- "April" }
     
-    c(monthStr, day)
+    return (c(monthStr, day))
 }
