@@ -19,13 +19,3 @@ HHdd <- function (hr, min, sec)
     return(decimal_hours)
 }
 
-# Calculate the TDB julian date corresponding to the epoch of observation
-julian_date_TDB <- function(julian_date)
-{
-    t_prime <- (julian_date - 2451545.0) / 36525
-    m <- (357.528 + 35999.050 * t_prime) * 2 * 3.14159265 / 360
-    s <- 0.001658 * sin(m + 0.01671 * sin(m))
-    t <- t_prime + s / 86400
-    return(t)
-}
-

@@ -246,6 +246,31 @@ create_de431_db_tables <- function(db_conn)
                          Z5 = "REAL",
                          Z6 = "REAL")
   
+  # Create table schema for the Nutation data
+  col_nutation <- c(Julian_Day_Start = "REAL",
+                    Julian_Day_End = "REAL",
+                    Interval = "INTEGER",
+                    Longitude1 = "REAL",
+                    Longitude2 = "REAL",
+                    Longitude3 = "REAL",
+                    Longitude4 = "REAL",
+                    Longitude5 = "REAL",
+                    Longitude6 = "REAL",
+                    Longitude7 = "REAL",
+                    Longitude8 = "REAL",
+                    Longitude9 = "REAL",
+                    Longitude10 = "REAL",
+                    Obliquity1 = "REAL",
+                    Obliquity2 = "REAL",
+                    Obliquity3 = "REAL",
+                    Obliquity4 = "REAL",
+                    Obliquity5 = "REAL",
+                    Obliquity6 = "REAL",
+                    Obliquity7 = "REAL",
+                    Obliquity8 = "REAL",
+                    Obliquity9 = "REAL",
+                    Obliquity10 = "REAL")
+  
   # Create table schema for the Body data
   col_body <- c(Body = "TEXT",
                 Units = "TEXT",
@@ -298,6 +323,9 @@ create_de431_db_tables <- function(db_conn)
                 temporary = FALSE)
   
   dbCreateTable(db_conn, "Moon", col_bodies_emb, row.names = NULL,
+                temporary = FALSE)
+  
+  dbCreateTable(db_conn, "Nutation", col_nutation, row.names = NULL,
                 temporary = FALSE)
   
 }
