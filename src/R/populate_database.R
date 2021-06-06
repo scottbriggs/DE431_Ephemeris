@@ -46,6 +46,7 @@ populate_database <- function(con)
     populate_pluto_data(filelist[i], con)
     populate_moon_data(filelist[i], con)
     populate_sun_data(filelist[i], con)
+    populate_nutation_data(filelist[i], con)
   }
   
 }
