@@ -1,10 +1,31 @@
 
 # Calculates the Julian Day given the month, day, and year. The algorithm works
 # for any date in the common era (CE) or before the common era (BCE).
+# The Julian Day is calculated for a calendar date that allows for a decimal
+# day. Since the julian day is calculated for the date at 12:00 Noon of that day,
+# the range of decimal day values is bounded as 0.01 <= day <= 0.49.
+julian_day <- function(month, day, year)
+{
+    # Day is a decimal 
+    int_day <- trunc(day)
+    frac_day <- day - int_day
+    
+    julday <- julian_day_int(month, int_day, year)
+    
+    if (julday >= 0){
+        julday <- julday + frac_day
+    } else {
+        julday <- julday - frac_day    
+    }
+    
+    return(julday)
+}
+
+# Calculates the Julian Day given the month, day, and year. The algorithm works
+# for any date in the common era (CE) or before the common era (BCE).
 # The Julian Day is calculated for a calendar date at 12 noon, which means that
 # the day is an integer, i.e., there is no fractional day allowed.
-
-julian_day <- function(month, day, year)
+julian_day_int <- function(month, day, year)
 {
     # Calculates the julian day for a calendar date at 12 noon. This means that 
     #the day is an integer
@@ -48,28 +69,6 @@ julian_date_TDB <- function(julian_date)
     s <- 0.001658 * sin(m + 0.01671 * sin(m))
     t <- julian_date + s / 86400
     return(t)
-}
-
-# Calculates the Julian Day given the month, day, and year. The algorithm works
-# for any date in the common era (CE) or before the common era (BCE).
-# The Julian Day is calculated for a calendar date that allows for a decimal
-# day.
-
-julian_day_frac <- function(month, day, year)
-{
-    # Day is a decimal 
-    int_day <- trunc(day)
-    frac_day <- day - int_day
-    
-    julday <- julianDay(month, int_day, year)
-    
-    if (julday >= 0){
-        julday <- julday + frac_day - 0.5
-    } else {
-        julday <- julday - frac_day + 0.5    
-        }
-    
-    return(julday)
 }
 
 calendar_date1 <- function(julday)

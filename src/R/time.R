@@ -1,6 +1,14 @@
 
+# Convert hours, minutes, and seconds to decimal days
+hhmmss2decimal_day <- function(hr, min, sec)
+{
+    decimal_day <- HHdd(hr, min, sec) / 24
+    
+    return(decimal_day)
+}
+
 # Convert decimal hours to hours, minutes, and seconds
-HHMMSS <- function (HHdd)
+decimal_hour2hhmmss <- function (HHdd)
 {
     intpart1 <- trunc(HHdd)
     fracpart1 <- HHdd - intpart1
@@ -18,7 +26,7 @@ HHMMSS <- function (HHdd)
 }
 
 # Converts hours, minutes, and seconds to decimal hours
-HHdd <- function (hr, min, sec)
+hhmmss2decimal_hour <- function (hr, min, sec)
 {
     decimal_hours <- hr + min  /60 + sec / 3600
     return(decimal_hours)
@@ -35,7 +43,7 @@ deg2rad <- function(deg){
 }
 
 # Convert decimal degrees to degrees, arcminutes, and arcseconds
-DDMMSS <- function (DDdd)
+decimal_degrees2ddmmss <- function (DDdd)
 {
     intpart1 <- trunc(DDdd)
     fracpart1 <- DDdd - intpart1
@@ -52,7 +60,7 @@ DDMMSS <- function (DDdd)
     return(vec1)
 }
 
-DDdd <- function(dd, arc_min, arc_sec)
+ddmmss2decimal_degrees <- function(dd, arc_min, arc_sec)
 {
     decimal_degreess <- dd + arc_min  /60 + arc_sec / 3600
     return(decimal_degreess)
