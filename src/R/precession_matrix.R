@@ -106,7 +106,7 @@ precession_matrix <- function(jd)
   }
   
   # Calculate the precession matrix
-  prec_mat <- data.frame(matrix(0.0, nrow=3, ncol=3))
+  prec_mat <- matrix(0.0, nrow=3, ncol=3)
   
   v <- cross_product(equator_pole, ecliptic_pole)
   normal_vec <- unit_vector(v)

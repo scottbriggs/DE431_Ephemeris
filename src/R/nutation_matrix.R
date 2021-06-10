@@ -80,7 +80,7 @@ nutation_matrix <- function(con, jd)
   sin_true_obliquity <- sin(true_obliquity)
   cos_true_obliquity <- cos(true_obliquity)
   
-  nut_mat <- data.frame(matrix(0.0, nrow=3, ncol=3))
+  nut_mat <- matrix(0.0, nrow=3, ncol=3)
   nut_mat[1,1] <- cos_long
   nut_mat[1,2] <- -sin_long * cos_mean_obliquity
   nut_mat[1,3] <- -sin_long * sin_mean_obliquity
