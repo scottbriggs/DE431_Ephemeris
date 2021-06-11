@@ -42,3 +42,21 @@ unit_vector <- function(x)
   
   return (result)
 }
+
+# Convert position and velocity data from KM and KM/Sec to AU and AU/day
+# The function will work for a 6 element data frame containing both position 
+# and velocity data
+km_sec2AU_day <- function(df)
+{
+  KM2AU <- 149597870.7
+  sec2day <- 60*60*24
+  
+  pos <- data.frame(df[,1])
+  vel <- data.frame(df[,2])
+  
+  pos1 <- apply(pos, 1, function(x) {x/KM2AU})
+  vel1 <- apply(vel, 1, function(x) {x*sec2day/KM2AU})
+  df1 <- data.frame(pos1, vel1)
+  
+  return(df1)
+}
