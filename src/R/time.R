@@ -1,71 +1,39 @@
 
-# Convert hours, minutes, and seconds to decimal days
-hhmmss2decimal_day <- function(hr, min, sec)
+# Convert degrees, minutes, and seconds to decimal degrees
+ddmmss2deg <- function(deg, min, sec)
 {
-    decimal_day <- HHdd(hr, min, sec) / 24
+    sign <- 0
     
-    return(decimal_day)
+    if ( (deg<0) | (min<0) | (sec<0) ){
+        sign <- -1
+    }else {
+        sign <- 1
+    }
+    
+    return( sign * (abs(deg) + abs(min) /60 + abs(sec) / 3600))
 }
 
-# Convert decimal hours to hours, minutes, and seconds
-decimal_hour2hhmmss <- function (HHdd)
+# Convert decimal degrees to degrees, minutes, and seconds
+deg2ddmmss <- function(deg)
 {
-    intpart1 <- trunc(HHdd)
-    fracpart1 <- HHdd - intpart1
-    hh <- intpart1
-    temp <- fracpart1 * 60
-    mm <- trunc(temp)
-    ss <- (temp - mm) * 60
+    x <- abs(deg)
+    D <- as.integer(x)
+    x <- (x - D) * 60.0
+    M <- as.integer(x)
+    S <- (x - M) * 60.0
     
-    vec1 <- data.frame(matrix(0.0, nrow=3, ncol=1))
-    vec1[1] = hh
-    vec1[2] = mm
-    vec1[3] = ss
+    if (deg < 0.0) {
+        if (D != 0) {
+            D <- D * -1
+        }else if (M != 0) {
+            M <- M * -1
+        }else {
+            S <- S * -1
+        }
+    }
     
-    return(vec1)
-}
-
-# Converts hours, minutes, and seconds to decimal hours
-hhmmss2decimal_hour <- function (hr, min, sec)
-{
-    decimal_hours <- hr + min  /60 + sec / 3600
-    return(decimal_hours)
-}
-
-# Convert radians to degrees
-rad2deg <- function(rad) {
-    return(rad * 180 / 3.14159265)
-}
-
-# Convert degrees to radians
-deg2rad <- function(deg){
-    return(deg * 3.14159265 / 180)
-}
-
-# Convert decimal degrees to degrees, arcminutes, and arcseconds
-decimal_degrees2ddmmss <- function (DDdd)
-{
-    intpart1 <- trunc(DDdd)
-    fracpart1 <- DDdd - intpart1
-    dd <- intpart1
-    temp <- fracpart1 * 60
-    arc_mm <- trunc(temp)
-    arc_ss <- (temp - arc_mm) * 60
+    vec <- c(D, M, S)
     
-    vec1 <- data.frame(matrix(0.0, nrow=3, ncol=1))
-    vec1[1] = dd
-    vec1[2] = arc_mm
-    vec1[3] = arc_ss
-    
-    return(vec1)
+    return(vec)
 }
-
-ddmmss2decimal_degrees <- function(dd, arc_min, arc_sec)
-{
-    decimal_degreess <- dd + arc_min  /60 + arc_sec / 3600
-    return(decimal_degreess)
-}
-
-
-
 

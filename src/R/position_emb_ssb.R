@@ -1,17 +1,15 @@
 
-# Calculate the position and velocity of the Moon relative to the center of
-# the Earth (geocentric)
-position_moon_geo <- function(con, jd)
+position_emb_ssb <- function(con, jd)
 {
   # Days per Block is 32 for DE431
   days_per_block <- 32
   
   # Calculate the subinterval
-  query <- "SELECT Subintervals FROM DE431Body WHERE Body = 'Moon'"
+  query <- "SELECT Subintervals FROM DE431Body WHERE Body = 'Earth-Moon Barycenter'"
   num_subintervals <- dbGetQuery(con, query)
   length_of_subinterval <- days_per_block / num_subintervals
   
-  str1 <- paste("SELECT DISTINCT Julian_Day_Start FROM Moon WHERE Julian_Day_Start <=",
+  str1 <- paste("SELECT DISTINCT Julian_Day_Start FROM EMB WHERE Julian_Day_Start <=",
                 jd,
                 "AND Julian_Day_End >",
                 jd,
@@ -23,17 +21,17 @@ position_moon_geo <- function(con, jd)
   # subinterval begins with 0, but they begin with 1 in the database
   subinterval <- subinterval + 1
 
-  # Get the data for Moon
+  # Get the data for EMB
   str2 <- paste("SELECT DISTINCT X1, X2, X3, X4, X5, X6, X7, X8, X9, X10, X11, X12, X13,",
                 "Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8, Y9, Y10, Y11, Y12, Y13,",
                 "Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8, Z9, Z10, Z11, Z12, Z13",
-                "FROM Moon WHERE Julian_Day_Start =",
+                "FROM EMB WHERE Julian_Day_Start = ",
                 jd_block_start,
                 "AND Interval = ",
                 subinterval)
   
-  moon_df <- dbGetQuery(con, str2)
-  
+  emb_df <- dbGetQuery(con, str2)
+
   # Normalize the Julian Day
   valid_start <- jd_block_start + ((subinterval-1) * length_of_subinterval)
   valid_end <- valid_start + length_of_subinterval
@@ -57,18 +55,18 @@ position_moon_geo <- function(con, jd)
   for (i in seq(from = 3, to = 13, by = 1)){
     chebyshev[i,2] <- (2 * x * chebyshev[i-1,2]) - chebyshev[i-2,2] + (2 * chebyshev[i-1,1])
   }
-  
+
   # Calculate the position in kilometers and the velocity in kilometers/sec
   pos_vel <- data.frame(matrix(0.0, nrow=3, ncol=2))
   v <- 0
   for (v in seq(from = 13, to = 1, by = -1)){
-    pos_vel[1,1] <- pos_vel[1,1] + (chebyshev[v,1] * moon_df[1,v])
-    pos_vel[2,1] <- pos_vel[2,1] + (chebyshev[v,1] * moon_df[1,v+13])
-    pos_vel[3,1] <- pos_vel[3,1] + (chebyshev[v,1] * moon_df[1,v+26])
+    pos_vel[1,1] <- pos_vel[1,1] + (chebyshev[v,1] * emb_df[1,v])
+    pos_vel[2,1] <- pos_vel[2,1] + (chebyshev[v,1] * emb_df[1,v+13])
+    pos_vel[3,1] <- pos_vel[3,1] + (chebyshev[v,1] * emb_df[1,v+26])
     
-    pos_vel[1,2] <- pos_vel[1,2] + (chebyshev[v,2] * moon_df[1,v])
-    pos_vel[2,2] <- pos_vel[2,2] + (chebyshev[v,2] * moon_df[1,v+13])
-    pos_vel[3,2] <- pos_vel[3,2] + (chebyshev[v,2] * moon_df[1,v+26])
+    pos_vel[1,2] <- pos_vel[1,2] + (chebyshev[v,2] * emb_df[1,v])
+    pos_vel[2,2] <- pos_vel[2,2] + (chebyshev[v,2] * emb_df[1,v+13])
+    pos_vel[3,2] <- pos_vel[3,2] + (chebyshev[v,2] * emb_df[1,v+26])
   }
   
   # Scale the velocity
@@ -76,7 +74,7 @@ position_moon_geo <- function(con, jd)
   pos_vel[1,2] = pos_vel[1,2] * scale_value
   pos_vel[2,2] = pos_vel[2,2] * scale_value
   pos_vel[3,2] = pos_vel[3,2] * scale_value
-  
+
   # Return the data
   return(pos_vel)
 }

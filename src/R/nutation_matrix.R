@@ -16,8 +16,7 @@ nutation_matrix <- function(con, jd)
                 jd,
                 "AND Interval = 1")
   jd_block_start <- dbGetQuery(con, str1)
-  length_of_subinterval <- 32 / num_subintervals
-  subinterval <- floor((jd - jd_block_start) / length_of_subinterval)
+  subinterval <- floor(as.integer(jd - jd_block_start) / length_of_subinterval)
   
   # Add 1 to get the right subinterval. The above algorithm assumes the 
   # subinterval begins with 0, but they begin with 1 in the database
@@ -28,11 +27,9 @@ nutation_matrix <- function(con, jd)
                 Longitude5, Longitude6, Longitude7, Longitude8,Longitude9, Longitude10,",
                 "Obliquity1, Obliquity2, Obliquity3, Obliquity4, Obliquity5, Obliquity6, 
                 Obliquity7, Obliquity8, Obliquity9, Obliquity10",
-                "FROM Nutation WHERE",
-                jd,
-                ">= Julian_Day_Start AND",
-                jd,
-                "<= Julian_Day_End AND Interval = ",
+                "FROM Nutation WHERE Julian_Day_Start =",
+                jd_block_start,
+                "AND Interval = ",
                 subinterval)
   
   nutation_df <- dbGetQuery(con, str2)
@@ -65,11 +62,11 @@ nutation_matrix <- function(con, jd)
   T <- (jd - 2451545.0) / 36525
   T2 <- T * T
   T3 = T2 * T
-  term1 <- DDdd(23, 26, 21.448)
-  term2 <- DDdd(0, 0, 46.8150) * T
-  term3 <- DDdd(0, 0, 0.00059) * T2
-  term4 <- DDdd(0, 0, 0.001813) * T3
-  mean_obliquity <- deg2rad(term1 + term2 + term3 + term4)
+  term1 <- ddmmss2deg(23, 26, 21.448)
+  term2 <- ddmmss2deg(0, 0, 46.8150) * T
+  term3 <- ddmmss2deg(0, 0, 0.00059) * T2
+  term4 <- ddmmss2deg(0, 0, 0.001813) * T3
+  mean_obliquity <- (term1 + term2 + term3 + term4) * DEG2RAD
   true_obliquity <- mean_obliquity + vec1[2,1]
   
   # Calculate the nutation matrix elements

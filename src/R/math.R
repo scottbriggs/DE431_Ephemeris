@@ -43,20 +43,23 @@ unit_vector <- function(x)
   return (result)
 }
 
-# Convert position and velocity data from KM and KM/Sec to AU and AU/day
-# The function will work for a 6 element data frame containing both position 
-# and velocity data
-km_sec2AU_day <- function(df)
+ra_dec <- function(vec)
 {
-  KM2AU <- 149597870.7
-  sec2day <- 60*60*24
+  # Convert declination to degs, mins, and secs
+  dec <- deg2ddmmss(asin(vec[3]) * RAD2DEG)
   
-  pos <- data.frame(df[,1])
-  vel <- data.frame(df[,2])
+  # Convert right ascension to hours, mins, and secs
+  ra_tmp <- atan2(vec[2], vec[1]) * RAD2DEG
+  if (vec[2] < 0) {ra_tmp <- ra_tmp + 360.0}
+  ra_tmp <- ra_tmp / 15
+  ra <- deg2ddmmss(ra_tmp)
   
-  pos1 <- apply(pos, 1, function(x) {x/KM2AU})
-  vel1 <- apply(vel, 1, function(x) {x*sec2day/KM2AU})
-  df1 <- data.frame(pos1, vel1)
+  mat <- matrix(0.0, nrow=3, ncol=3)
   
-  return(df1)
+  for (i in 1:3) {
+    mat[1,i] = ra[i]
+    mat[2,i] = dec[i]
+  }
+  
+  return(mat)
 }
