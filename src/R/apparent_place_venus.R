@@ -20,6 +20,7 @@ apparent_place_venus <- function(con, jd)
   
   # Extract the barycentric position and velocity of the Sun
   sun_ssb <- position_sun_ssb(con, t)
+  sun_ssb_au <- sun_ssb[,1] / KM2AU
   
   # Create the heliocentric position of the Earth
   helio_earth <- earth_ssb - sun_ssb
@@ -64,7 +65,7 @@ apparent_place_venus <- function(con, jd)
   repeat {
     tau_prime <- 
       (U_mag + (MUC * log((E_mag + U_mag + Q_mag) / (E_mag - U_mag + Q_mag)))) / CAUD
-    if ((tau - tau_prime) < 1E-8){
+    if ((tau - tau_prime) < 1E-9){
       break
     }else{
       # Extract the barycentric position of the body and the Sun at t - tau_prime

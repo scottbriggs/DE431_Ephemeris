@@ -34,4 +34,11 @@ source(here("src", "R", "date.R"))
 source(here("src", "R", "math.R"))
 source(here("src", "R", "apparent_place_mercury.R"))
 source(here("src", "R", "apparent_place_venus.R"))
+source(here("src", "R", "apparent_place_mars.R"))
+source(here("src", "R", "apparent_place_jupiter.R"))
+source(here("src", "R", "apparent_place_saturn.R"))
+source(here("src", "R", "apparent_place_uranus.R"))
+source(here("src", "R", "apparent_place_neptune.R"))
+source(here("src", "R", "apparent_place_pluto.R"))
+
 

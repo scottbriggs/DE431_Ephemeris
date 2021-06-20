@@ -1,5 +1,5 @@
 
-apparent_place_mercury <- function(con, jd)
+apparent_place_neptune <- function(con, jd)
 {
   # Calculate the number of julian centuries since the epoch of observation
   T_prime <- (jd - 2451545.0) / 36525
@@ -24,37 +24,37 @@ apparent_place_mercury <- function(con, jd)
   # Create the heliocentric position of the Earth
   helio_earth <- earth_ssb - sun_ssb
   
-  # Extract the barycentric position and velocity of Mercury
-  mercury_ssb <- position_mercury_ssb(con, t)
+  # Extract the barycentric position and velocity of Neptune
+  neptune_ssb <- position_neptune_ssb(con, t)
   
   # Convert data frames from km and km/sec to AU and AU/day
   earth_ssb_au <- earth_ssb[,1] / KM2AU
   earth_ssb_au_day <- earth_ssb[,2] / KM2AU
   helio_earth_au <- helio_earth[,1] / KM2AU
   helio_earth_au_day <- helio_earth[,2] / KM2AU
-  mercury_ssb_au <- mercury_ssb[,1] / KM2AU
-  mercury_ssb_au_day <- mercury_ssb[,2] / KM2AU
+  neptune_ssb_au <- neptune_ssb[,1] / KM2AU
+  neptune_ssb_au_day <- neptune_ssb[,2] / KM2AU
   
   # Calculate the geometric distance between the positions of the center of mass
-  # of Mercury and the Earth
-  tmp <- mercury_ssb_au - earth_ssb_au
+  # of Neptune and the Earth
+  tmp <- neptune_ssb_au - earth_ssb_au
   d <- magnitude(tmp)
   
-  # Calculate a first approximation to the light-travel time between Mercury
+  # Calculate a first approximation to the light-travel time between Neptune
   # and the Earth
   tau = d / CAUD
   tt <- t - tau
   
-  # Extract the barycentric position of Mercury and the Sun at t - tau
-  mercury_ssb <- position_mercury_ssb(con, tt)
+  # Extract the barycentric position of Neptune and the Sun at t - tau
+  neptune_ssb <- position_neptune_ssb(con, tt)
   sun_ssb <- position_sun_ssb(con, tt)
-  mercury_ssb_au <- mercury_ssb[,1] / KM2AU
-  mercury_ssb_au_day <- mercury_ssb[,2] / KM2AU
+  neptune_ssb_au <- neptune_ssb[,1] / KM2AU
+  neptune_ssb_au_day <- neptune_ssb[,2] / KM2AU
   sun_ssb_au <- sun_ssb[,1] / KM2AU
   sun_ssb_au_day <- sun_ssb[,2] / KM2AU
   
-  U <- mercury_ssb_au - earth_ssb_au
-  Q <- mercury_ssb_au - sun_ssb_au
+  U <- neptune_ssb_au - earth_ssb_au
+  Q <- neptune_ssb_au - sun_ssb_au
   U_mag <- magnitude(U)
   Q_mag <- magnitude(Q)
   E_mag <- magnitude(helio_earth_au)
@@ -68,15 +68,15 @@ apparent_place_mercury <- function(con, jd)
       break
     }else{
       # Extract the barycentric position of the body and the Sun at t - tau_prime
-      mercury_ssb <- position_mercury_ssb(con, (t - tau_prime))
+      neptune_ssb <- position_neptune_ssb(con, (t - tau_prime))
       sun_ssb <- position_sun_ssb(con, (t - tau_prime))
-      mercury_ssb_au <- mercury_ssb[,1] / KM2AU
-      mercury_ssb_au_day <- mercury_ssb[,2] / KM2AU
+      neptune_ssb_au <- neptune_ssb[,1] / KM2AU
+      neptune_ssb_au_day <- neptune_ssb[,2] / KM2AU
       sun_ssb_au <- sun_ssb[,1] / KM2AU
       sun_ssb_au_day <- sub_ssb[,2] / KM2AU
       
-      U <- mercury_ssb_au - earth_ssb_au
-      Q <- mercury_ssb_au - sun_ssb_au
+      U <- neptune_ssb_au - earth_ssb_au
+      Q <- neptune_ssb_au - sun_ssb_au
       U_mag <- magnitude(U)
       Q_mag <- magnitude(Q)
       E_mag <- magnitude(helio_earth_au)
