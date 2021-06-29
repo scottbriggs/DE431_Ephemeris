@@ -70,3 +70,34 @@ amodulo <- function(a, b)
   return(x <- a - b * floor(a/b))
 }
 
+# Returns a rotation matrix based on the axis (x, y, or z) and the angle phi
+# The angle phi is expected to be in radians
+rotation_matrix <- function(axis, phi)
+{
+  mat <- matrix(0.0, nrow = 3, ncol = 3)
+  cosphi <- cos(phi)
+  sinphi <- sin(phi)
+
+  if (axis == 1) {
+    mat[1,1] <- 1.0
+    mat[2,2] <- cosphi
+    mat[3,3] <- cosphi
+    mat[2,3] <- sinphi
+    mat[3,2] <- -sinphi
+  } else if (axis == 2) {
+    mat[1,1] <- cosphi
+    mat[1,3] <- -sinphi
+    mat[2,2] <- 1.0
+    mat[3,1] <- sinphi
+    mat[3,3] <- cosphi
+  } else if (axis == 3){
+    mat[1,1] <- cosphi
+    mat[2,2] <- cosphi
+    mat[3,3] <- 1.0
+    mat[2,1] <- -sinphi
+    mat[1,2] <- sinphi
+  } else {print("Axis is wrong value")}
+  
+  return (mat)
+}
+
