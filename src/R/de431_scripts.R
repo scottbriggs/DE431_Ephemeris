@@ -46,6 +46,7 @@ source(here("src", "R", "apparent_place_moon.R"))
 source(here("src", "R", "apparent_place_sun.R"))
 source(here("src", "R", "observer_position_vector.R"))
 source(here("src", "R", "sidereal_time.R"))
+source(here("src", "R", "topocentric_place_mercury.R"))
 
 
 

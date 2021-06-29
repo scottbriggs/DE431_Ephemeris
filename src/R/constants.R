@@ -55,3 +55,6 @@ EPOCHJ2000 <- 2451545.0
 
 # Days per julian century
 DAYSJULCENT <- 36525
+
+# Rotational angular velocity of the Earth in radians/second
+ROTANGVELEARTH <- 7.29211511467e-5

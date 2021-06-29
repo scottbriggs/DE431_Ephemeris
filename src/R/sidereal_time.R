@@ -1,6 +1,5 @@
 
 # Calculate sidereal time
-
 sidereal_time <- function(jd)
 {
   # Number of centuries since J2000
