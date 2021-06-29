@@ -2,22 +2,23 @@
 # Calculates the Julian Day given the month, day, and year. The algorithm works
 # for any date in the common era (CE) or before the common era (BCE).
 # The Julian Day is calculated for a calendar date that allows for a decimal
-# day. Since the julian day is calculated for the date at 12:00 Noon of that day,
-# the range of decimal day values is bounded as 0.01 <= day <= 0.49.
+# day.
+
 julian_day <- function(month, day, year)
 {
     # Day is a decimal 
     int_day <- trunc(day)
     frac_day <- day - int_day
-    
     julday <- julian_day_int(month, int_day, year)
     
-    if (julday >= 0){
-        julday <- julday + frac_day
-    } else {
-        julday <- julday - frac_day    
+    if (frac_day > 0.5){
+        frac_day <- frac_day - 0.5
+        julday <- julday + frac_day}
+    else if (frac_day < 0.5){
+        frac_day <- 0.5 - frac_day
+        julday <- julday - frac_day
     }
-    
+
     return(julday)
 }
 

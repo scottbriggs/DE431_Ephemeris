@@ -2,7 +2,7 @@
 # Create the tables in sqlite3 for the solar system bodies for the de431
 # ephemeris
 
-create_de431_db_tables <- function(db_conn)
+create_de431_db_tables <- function()
 {
   # Create table schema for Mercury
   col_bodies_mercury <- c(Julian_Day_Start = "REAL",
@@ -285,47 +285,47 @@ create_de431_db_tables <- function(db_conn)
                   Header_Value = "REAL")
   
   # Create tables for the header and body information
-  dbCreateTable(db_conn, "Header", col_header, row.names = NULL,
+  dbCreateTable(db_con, "Header", col_header, row.names = NULL,
                 temporary = FALSE)
   
-  dbCreateTable(db_conn, "DE431Body", col_body, row.names = NULL,
+  dbCreateTable(db_con, "DE431Body", col_body, row.names = NULL,
                 temporary = FALSE)
   
   # Create tables for the solar system bodies in database
-  dbCreateTable(db_conn, "Mercury", col_bodies_mercury, row.names = NULL,
+  dbCreateTable(db_con, "Mercury", col_bodies_mercury, row.names = NULL,
                 temporary = FALSE)
   
-  dbCreateTable(db_conn, "Venus", col_bodies_venus, row.names = NULL,
+  dbCreateTable(db_con, "Venus", col_bodies_venus, row.names = NULL,
                 temporary = FALSE)
   
-  dbCreateTable(db_conn, "EMB", col_bodies_emb, row.names = NULL,
+  dbCreateTable(db_con, "EMB", col_bodies_emb, row.names = NULL,
                 temporary = FALSE)
   
-  dbCreateTable(db_conn, "Mars", col_bodies_mars, row.names = NULL,
+  dbCreateTable(db_con, "Mars", col_bodies_mars, row.names = NULL,
                 temporary = FALSE)
   
-  dbCreateTable(db_conn, "Jupiter", col_bodies_jupiter, row.names = NULL,
+  dbCreateTable(db_con, "Jupiter", col_bodies_jupiter, row.names = NULL,
                 temporary = FALSE)
   
-  dbCreateTable(db_conn, "Saturn", col_bodies_saturn, row.names = NULL,
+  dbCreateTable(db_con, "Saturn", col_bodies_saturn, row.names = NULL,
                 temporary = FALSE)
   
-  dbCreateTable(db_conn, "Uranus", col_bodies_uranus, row.names = NULL,
+  dbCreateTable(db_con, "Uranus", col_bodies_uranus, row.names = NULL,
                 temporary = FALSE)
   
-  dbCreateTable(db_conn, "Neptune", col_bodies_uranus, row.names = NULL,
+  dbCreateTable(db_con, "Neptune", col_bodies_uranus, row.names = NULL,
                 temporary = FALSE)
   
-  dbCreateTable(db_conn, "Pluto", col_bodies_uranus, row.names = NULL,
+  dbCreateTable(db_con, "Pluto", col_bodies_uranus, row.names = NULL,
                 temporary = FALSE)
   
-  dbCreateTable(db_conn, "Sun", col_bodies_mars, row.names = NULL,
+  dbCreateTable(db_con, "Sun", col_bodies_mars, row.names = NULL,
                 temporary = FALSE)
   
-  dbCreateTable(db_conn, "Moon", col_bodies_emb, row.names = NULL,
+  dbCreateTable(db_con, "Moon", col_bodies_emb, row.names = NULL,
                 temporary = FALSE)
   
-  dbCreateTable(db_conn, "Nutation", col_nutation, row.names = NULL,
+  dbCreateTable(db_con, "Nutation", col_nutation, row.names = NULL,
                 temporary = FALSE)
   
 }

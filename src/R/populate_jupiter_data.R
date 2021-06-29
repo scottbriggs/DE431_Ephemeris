@@ -2,7 +2,7 @@
 # Takes a RDS file of DE431 body data and writes out a csv file of data
 # for Jupiter to be ingested into a database
 
-populate_jupiter_data <- function(filename, db_conn)
+populate_jupiter_data <- function(filename)
 {
   # Read ascii data
   DT <- readRDS(here("data", "processed", filename))
@@ -45,5 +45,5 @@ populate_jupiter_data <- function(filename, db_conn)
   #new_filename <- paste(new_filename, "_jupiter.csv", sep = "")
   #write.csv(jupiter, here("data", "processed", new_filename), row.names = FALSE)
   
-  dbAppendTable(db_conn, "Jupiter", jupiter, row.names = NULL)
+  dbAppendTable(db_con, "Jupiter", jupiter, row.names = NULL)
 }

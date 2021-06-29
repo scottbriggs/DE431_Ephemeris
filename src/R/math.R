@@ -46,7 +46,8 @@ unit_vector <- function(x)
 ra_dec <- function(vec)
 {
   # Convert declination to degs, mins, and secs
-  dec <- deg2ddmmss(asin(vec[3]) * RAD2DEG)
+  denom <- sqrt(vec[1] * vec[1] + vec[2] * vec[2])
+  dec <- deg2ddmmss(atan2(vec[3], denom) * RAD2DEG)
   
   # Convert right ascension to hours, mins, and secs
   ra_tmp <- atan2(vec[2], vec[1]) * RAD2DEG
@@ -63,3 +64,9 @@ ra_dec <- function(vec)
   
   return(mat)
 }
+
+amodulo <- function(a, b)
+{
+  return(x <- a - b * floor(a/b))
+}
+

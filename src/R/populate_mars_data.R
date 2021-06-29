@@ -2,7 +2,7 @@
 # Takes a RDS file of DE431 body data and writes out a csv file of data
 # for Mars to be ingested into a database
 
-populate_mars_data <- function(filename, db_conn)
+populate_mars_data <- function(filename)
 {
   # Read ascii data
   DT <- readRDS(here("data", "processed", filename))
@@ -47,6 +47,6 @@ populate_mars_data <- function(filename, db_conn)
   #new_filename <- paste(new_filename, "_mars.csv", sep = "")
   #write.csv(mars, here("data", "processed", new_filename), row.names = FALSE)
   
-  dbAppendTable(db_conn, "Mars", mars, row.names = NULL)
+  dbAppendTable(db_con, "Mars", mars, row.names = NULL)
   
 }

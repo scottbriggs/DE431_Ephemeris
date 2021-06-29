@@ -1,8 +1,8 @@
 
-apparent_place_neptune <- function(con, jd)
+apparent_place_neptune <- function(jd)
 {
   # Calculate the number of julian centuries since the epoch of observation
-  T_prime <- (jd - 2451545.0) / 36525
+  T_prime <- (jd - EPOCHJ2000) / DAYSJULCENT
   
   # Calculate the mean anomaly of the Earth in its orbit, in radians, at the
   # epoch of observation
@@ -12,28 +12,24 @@ apparent_place_neptune <- function(con, jd)
   s <- 0.001658 * sin(mean_anomaly + 0.01671 * sin(mean_anomaly))
   t <- jd + s / 86400
   
-  T <- (t - 2451545.0) / 36525
+  T <- (t - EPOCHJ2000) / DAYSJULCENT
   
   # Extract the barycentric position and velocity of the Earth
-  earth_ssb <- position_earth_ssb(con, t)
+  earth_ssb <- position_earth_ssb(t)
+  earth_ssb_au <- earth_ssb[,1] / KM2AU
+  earth_ssb_au_day <- earth_ssb[,2] / KM2AU
   
   # Extract the barycentric position and velocity of the Sun
-  sun_ssb <- position_sun_ssb(con, t)
+  sun_ssb <- position_sun_ssb(t)
   sun_ssb_au <- sun_ssb[,1] / KM2AU
   
   # Create the heliocentric position of the Earth
   helio_earth <- earth_ssb - sun_ssb
+  helio_earth_au <- helio_earth[,1] / KM2AU
   
   # Extract the barycentric position and velocity of Neptune
-  neptune_ssb <- position_neptune_ssb(con, t)
-  
-  # Convert data frames from km and km/sec to AU and AU/day
-  earth_ssb_au <- earth_ssb[,1] / KM2AU
-  earth_ssb_au_day <- earth_ssb[,2] / KM2AU
-  helio_earth_au <- helio_earth[,1] / KM2AU
-  helio_earth_au_day <- helio_earth[,2] / KM2AU
+  neptune_ssb <- position_neptune_ssb(t)
   neptune_ssb_au <- neptune_ssb[,1] / KM2AU
-  neptune_ssb_au_day <- neptune_ssb[,2] / KM2AU
   
   # Calculate the geometric distance between the positions of the center of mass
   # of Neptune and the Earth
@@ -43,47 +39,29 @@ apparent_place_neptune <- function(con, jd)
   # Calculate a first approximation to the light-travel time between Neptune
   # and the Earth
   tau = d / CAUD
-  tt <- t - tau
   
-  # Extract the barycentric position of Neptune and the Sun at t - tau
-  neptune_ssb <- position_neptune_ssb(con, tt)
-  sun_ssb <- position_sun_ssb(con, tt)
+  neptune_ssb <- position_neptune_ssb(t-tau)
   neptune_ssb_au <- neptune_ssb[,1] / KM2AU
-  neptune_ssb_au_day <- neptune_ssb[,2] / KM2AU
+  
+  sun_ssb <- position_sun_ssb(t-tau)
   sun_ssb_au <- sun_ssb[,1] / KM2AU
-  sun_ssb_au_day <- sun_ssb[,2] / KM2AU
   
   U <- neptune_ssb_au - earth_ssb_au
   Q <- neptune_ssb_au - sun_ssb_au
-  U_mag <- magnitude(U)
-  Q_mag <- magnitude(Q)
-  E_mag <- magnitude(helio_earth_au)
   
-  tau_prime <- 0.0
+  tau_prime <- magnitude(U) / CAUD
   
-  repeat {
-    tau_prime <- 
-      (U_mag + (MUC * log((E_mag + U_mag + Q_mag) / (E_mag - U_mag + Q_mag)))) / CAUD
-    if ((tau - tau_prime) < 1E-9){
-      break
-    }else{
-      # Extract the barycentric position of the body and the Sun at t - tau_prime
-      neptune_ssb <- position_neptune_ssb(con, (t - tau_prime))
-      sun_ssb <- position_sun_ssb(con, (t - tau_prime))
-      neptune_ssb_au <- neptune_ssb[,1] / KM2AU
-      neptune_ssb_au_day <- neptune_ssb[,2] / KM2AU
-      sun_ssb_au <- sun_ssb[,1] / KM2AU
-      sun_ssb_au_day <- sub_ssb[,2] / KM2AU
-      
-      U <- neptune_ssb_au - earth_ssb_au
-      Q <- neptune_ssb_au - sun_ssb_au
-      U_mag <- magnitude(U)
-      Q_mag <- magnitude(Q)
-      E_mag <- magnitude(helio_earth_au)
-    }
-  }
+  neptune_ssb <- position_neptune_ssb(t-tau_prime)
+  neptune_ssb_au <- neptune_ssb[,1] / KM2AU
+  
+  sun_ssb <- position_sun_ssb(t-tau_prime)
+  sun_ssb_au <- sun_ssb[,1] / KM2AU
+  
+  U <- neptune_ssb_au - earth_ssb_au
+  Q <- neptune_ssb_au - sun_ssb_au
   
   # Calculate the relativistic deflection of light
+  E_mag <- magnitude(helio_earth_au)
   U_uv <- unit_vector(U)
   Q_uv <- unit_vector(Q)
   E_uv <-unit_vector(helio_earth_au)
@@ -108,7 +86,7 @@ apparent_place_neptune <- function(con, jd)
   U3 <- prec %*% U1
   
   # Calculate and apply the nutation matrix
-  nut <- nutation_matrix(con, t)
+  nut <- nutation_matrix(t)
   U4 <- nut %*% U3
   
   # Calculate the right ascension and declination

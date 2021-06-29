@@ -1,11 +1,11 @@
 
 # Calculate the position and velocity of the Earth with respect to the SSB
 
-position_earth_ssb <- function(con, jd)
+position_earth_ssb <- function(jd)
 {
   # Get the position and velocity of the earth-moon barycenter and moon
-  emb_pos_vel <- position_emb_ssb(con, jd)
-  moon_pos_vel <- position_moon_geo(con, jd)
+  emb_pos_vel <- position_emb_ssb(jd)
+  moon_pos_vel <- position_moon_geo(jd)
   
   # Calculate the position and velocity of the earth
   earth_pos_vel <- data.frame(matrix(0.0, nrow=3, ncol=2))

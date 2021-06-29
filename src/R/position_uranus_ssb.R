@@ -1,12 +1,12 @@
 
-position_uranus_ssb <- function(con, jd)
+position_uranus_ssb <- function(jd)
 {
   # Days per Block is 32 for DE431
   days_per_block <- 32
   
   # Calculate the subinterval
   query <- "SELECT Subintervals FROM DE431Body WHERE Body = 'Uranus'"
-  num_subintervals <- dbGetQuery(con, query)
+  num_subintervals <- dbGetQuery(db_con, query)
   length_of_subinterval <- days_per_block / num_subintervals
   
   str1 <- paste("SELECT DISTINCT Julian_Day_Start FROM Uranus WHERE Julian_Day_Start <=",
@@ -14,7 +14,7 @@ position_uranus_ssb <- function(con, jd)
                 "AND Julian_Day_End >",
                 jd,
                 "AND Interval = 1")
-  jd_block_start <- dbGetQuery(con, str1)
+  jd_block_start <- dbGetQuery(db_con, str1)
   subinterval <- floor(as.integer(jd - jd_block_start) / length_of_subinterval)
   
   # Add 1 to get the right subinterval. The above algorithm assumes the 
@@ -30,7 +30,7 @@ position_uranus_ssb <- function(con, jd)
                 "AND Interval = ",
                 subinterval)
   
-  uranus_df <- dbGetQuery(con, str2)
+  uranus_df <- dbGetQuery(db_con, str2)
   
   # Normalize the Julian Day
   valid_start <- jd_block_start + ((subinterval-1) * length_of_subinterval)

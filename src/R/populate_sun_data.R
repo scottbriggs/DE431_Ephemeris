@@ -2,7 +2,7 @@
 # Takes a RDS file of DE431 body data and writes out a csv file of data
 # for the Sun to be ingested into a database
 
-populate_sun_data <- function(filename, db_conn)
+populate_sun_data <- function(filename)
 {
   # Read ascii data
   DT <- readRDS(here("data", "processed", filename))
@@ -59,5 +59,5 @@ populate_sun_data <- function(filename, db_conn)
   #new_filename <- paste(new_filename, "_sun.csv", sep = "")
   #write.csv(sun, here("data", "processed", new_filename), row.names = FALSE)
   
-  dbAppendTable(db_conn, "Sun", sun, row.names = NULL)
+  dbAppendTable(db_con, "Sun", sun, row.names = NULL)
 }

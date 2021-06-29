@@ -2,7 +2,7 @@
 # Takes a RDS file of DE431 body data and writes out a csv file of data
 # for the Moon to be ingested into a database
 
-populate_moon_data <- function(filename, db_conn)
+populate_moon_data <- function(filename)
 {
   # Read ascii data
   DT <- readRDS(here("data", "processed", filename))
@@ -131,5 +131,5 @@ populate_moon_data <- function(filename, db_conn)
   #new_filename <- paste(new_filename, "_moon.csv", sep = "")
   #write.csv(moon, here("data", "processed", new_filename), row.names = FALSE)
   
-  dbAppendTable(db_conn, "Moon", moon, row.names = NULL)
+  dbAppendTable(db_con, "Moon", moon, row.names = NULL)
 }

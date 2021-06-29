@@ -2,7 +2,7 @@
 # Takes a RDS file of DE431 body data and writes out a csv file of data
 # for Pluto to be ingested into a database
 
-populate_pluto_data <- function(filename, db_conn)
+populate_pluto_data <- function(filename)
 {
   # Read ascii data
   DT <- readRDS(here("data", "processed", filename))
@@ -45,5 +45,5 @@ populate_pluto_data <- function(filename, db_conn)
   #new_filename <- paste(new_filename, "_pluto.csv", sep = "")
   #write.csv(pluto, here("data", "processed", new_filename), row.names = FALSE)
   
-  dbAppendTable(db_conn, "Pluto", pluto, row.names = NULL)
+  dbAppendTable(db_con, "Pluto", pluto, row.names = NULL)
 }

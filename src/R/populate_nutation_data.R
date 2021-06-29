@@ -2,7 +2,7 @@
 # Takes a RDS file of DE431 body data and inserts the nutation data into a
 # sqlite database
 
-populate_nutation_data <- function(filename, db_conn)
+populate_nutation_data <- function(filename)
 {
   # Read ascii data
   DT <- readRDS(here("data", "processed", filename))
@@ -84,5 +84,5 @@ populate_nutation_data <- function(filename, db_conn)
   #new_filename <- paste(new_filename, "_nutation.csv", sep = "")
   #write.csv(nutation, here("data", "processed", new_filename), row.names = FALSE)
   
-  dbAppendTable(db_conn, "Nutation", nutation, row.names = NULL)
+  dbAppendTable(db_con, "Nutation", nutation, row.names = NULL)
 }

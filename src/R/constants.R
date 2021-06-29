@@ -19,7 +19,7 @@ HR2RAD <- PI / 12.0
 # Conversion to hours from radians
 RAD2HR <- 12.0 / PI
 
-# Astronomical Unit of Kilometers (KM)
+# Astronomical Unit in Kilometers (KM)
 KM2AU <- 149597870.7
 
 # Speed of Light in KM per sec
@@ -43,3 +43,15 @@ SEC2DAY <- 86400
 # MUC
 MUC <- 2 * GAUSSK * GAUSSK / CAUD * CAUD
 
+# Equatorial Radius of the Earth in meters
+EARTHRADM <- 6378140.0
+EARTHRADAU <- EARTHRADM / 1000 / KM2AU
+
+# Flattening of the Earth's reference ellipsoid (IAU 1976)
+FLAT <- 1/298.257
+
+# Julian day for J2000
+EPOCHJ2000 <- 2451545.0
+
+# Days per julian century
+DAYSJULCENT <- 36525

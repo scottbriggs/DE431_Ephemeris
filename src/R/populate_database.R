@@ -1,7 +1,7 @@
 
 # Populate the database for all de431 solar system bodies plus the header
 # and body data
-populate_database <- function(con)
+populate_database <- function()
 {
   filelist <- c("ascm01000.rds",
                 "ascm02000.rds",
@@ -35,18 +35,18 @@ populate_database <- function(con)
                 "ascp16000.rds")
   
   for (i in seq(from = 1, to = 30, by = 1)){
-    populate_mercury_data(filelist[i], con)
-    populate_venus_data(filelist[i], con)
-    populate_emb_data(filelist[i], con)
-    populate_mars_data(filelist[i], con)
-    populate_jupiter_data(filelist[i], con)
-    populate_saturn_data(filelist[i], con)
-    populate_uranus_data(filelist[i], con)
-    populate_neptune_data(filelist[i], con)
-    populate_pluto_data(filelist[i], con)
-    populate_moon_data(filelist[i], con)
-    populate_sun_data(filelist[i], con)
-    populate_nutation_data(filelist[i], con)
+    populate_mercury_data(filelist[i])
+    populate_venus_data(filelist[i])
+    populate_emb_data(filelist[i])
+    populate_mars_data(filelist[i])
+    populate_jupiter_data(filelist[i])
+    populate_saturn_data(filelist[i])
+    populate_uranus_data(filelist[i])
+    populate_neptune_data(filelist[i])
+    populate_pluto_data(filelist[i])
+    populate_moon_data(filelist[i])
+    populate_sun_data(filelist[i])
+    populate_nutation_data(filelist[i])
   }
   
 }
