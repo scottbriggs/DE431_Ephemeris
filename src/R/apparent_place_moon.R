@@ -32,13 +32,7 @@ apparent_place_moon <- function(jd)
   moon_geo_au_day <- moon_geo[,2] / KM2AU
   
   # Calculate the aberration of light
-  p <- unit_vector(moon_geo_au)
-  V <- earth_ssb_au_day / CAUD
-  V_mag <- magnitude(V)
-  beta <- sqrt(1 - V_mag * V_mag)
-  f1 <- dot_product(p, V)
-  f2 <- 1 + f1 / (1 + beta)
-  U2 <- (beta * moon_geo_au + f2 * magnitude(moon_geo_au) * V) / (1 + f1)
+  U2 <- moon_geo_au + magnitude(moon_geo_au) * (earth_ssb_au_day / CAUD)
 
   # Calculate and apply the precession matrix
   prec <- precession_matrix(t)

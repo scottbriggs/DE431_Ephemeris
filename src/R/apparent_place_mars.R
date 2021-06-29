@@ -73,17 +73,11 @@ apparent_place_mars <- function(jd)
   U1 <- U_uv + (g1/g2 * ((dot_UQ*E_uv) - (dot_EU*Q_uv)))
   
   # Calculate the aberration of light
-  p <- unit_vector(U1)
-  V <- earth_ssb_au_day / CAUD
-  V_mag <- magnitude(V)
-  beta <- sqrt(1 - V_mag * V_mag)
-  f1 <- dot_product(p, V)
-  f2 <- 1 + f1 / (1 + beta)
-  U2 <- (beta * U1 + f2 * magnitude(U1) * V) / (1 + f1)
+  U2 <- U1 + magnitude(U1) * (earth_ssb_au_day / CAUD)
   
   # Calculate and apply the precession matrix
   prec <- precession_matrix(t)
-  U3 <- prec %*% U1
+  U3 <- prec %*% U2
   
   # Calculate and apply the nutation matrix
   nut <- nutation_matrix(t)
