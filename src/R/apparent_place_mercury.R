@@ -73,7 +73,7 @@ apparent_place_mercury <- function(jd)
   dot_UQ <- dot_product(U_uv, Q_uv)
   dot_EU <- dot_product(E_uv, U_uv)
   
-  U1 <- U_uv + (g1/g2 * ((dot_UQ*E_uv) - (dot_EU*Q_uv)))
+  U1 <- magnitude(U) * (U_uv + (g1/g2 * ((dot_UQ*E_uv) - (dot_EU*Q_uv))))
   
   # Calculate the aberration of light
   U2 <- U1 + magnitude(U1) * (earth_ssb_au_day / CAUD)

@@ -1,9 +1,8 @@
 
-
 apparent_place_sun <- function(jd)
 {
   # Calculate the number of julian centuries since the epoch of observation
-  T_prime <- (jd - 2451545.0) / 36525
+  T_prime <- (jd - EPOCHJ2000) / DAYSJULCENT
   
   # Calculate the mean anomaly of the Earth in its orbit, in radians, at the
   # epoch of observation
@@ -13,7 +12,7 @@ apparent_place_sun <- function(jd)
   s <- 0.001658 * sin(mean_anomaly + 0.01671 * sin(mean_anomaly))
   t <- jd + s / 86400
   
-  T <- (t - 2451545.0) / 36525
+  T <- (t - EPOCHJ2000) / DAYSJULCENT
   
   # Extract the barycentric position of the Earth
   earth_ssb <- position_earth_ssb(t)
