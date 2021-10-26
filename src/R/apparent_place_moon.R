@@ -42,8 +42,9 @@ apparent_place_moon <- function(jd)
   nut <- nutation_matrix(t)
   U4 <- nut %*% U3
 
-  res <- ra_dec(U4)
-  res[3,1] <- d
+  # Calculate the right ascension and declination
+  right_asc <- ra(U4)
+  declination <- dec(U4)
   
-  return(res) 
+  return (list(v1 = right_asc, v2 = declination, v3 = d))
 }

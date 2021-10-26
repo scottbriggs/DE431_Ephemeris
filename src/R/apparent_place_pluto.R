@@ -84,8 +84,10 @@ apparent_place_pluto <- function(jd)
   U4 <- nut %*% U3
   
   # Calculate the right ascension and declination
-  res <- ra_dec(U4)
-  res[3,1] <- d
+  right_asc <- ra(U4)
+  declination <- dec(U4)
+  
+  return (list(v1 = right_asc, v2 = declination, v3 = d))
   
   return(res) 
 }

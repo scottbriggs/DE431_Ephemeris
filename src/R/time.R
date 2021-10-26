@@ -1,6 +1,6 @@
 
 # Convert degrees, minutes, and seconds to decimal degrees
-ddmmss2deg <- function(deg, min, sec)
+dms2deg <- function(deg, min, sec)
 {
     sign <- 0
     
@@ -14,7 +14,7 @@ ddmmss2deg <- function(deg, min, sec)
 }
 
 # Convert decimal degrees to degrees, minutes, and seconds
-deg2ddmmss <- function(deg)
+deg2dms <- function(deg)
 {
     x <- abs(deg)
     D <- as.integer(x)
@@ -36,4 +36,3 @@ deg2ddmmss <- function(deg)
     
     return(vec)
 }
-
