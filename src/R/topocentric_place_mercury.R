@@ -8,12 +8,17 @@ topocentric_place_mercury <- function(jd, lat, long, height)
   gmst <- sidereal_time(jd)
   
   # Geocentric position and velocity of the observer
-  obs_geo_pos <- rotation_matrix(3, gmst[[2]] * HR2RAD) %*% obs_pos_vec
-  obs_geo_vel <- ROTANGVELEARTH * obs_geo_pos
+  obs_geo_pos <- rotation_matrix(3, -gmst[[2]] * HR2RAD) %*% obs_pos_vec
+  temp <- matrix(0.0,nrow=3,ncol=3)
+  temp[1,1] <- -sin(gmst[[2]] * HR2RAD)
+  temp[1,2] <- -cos(gmst[[2]] * HR2RAD)
+  temp[2,1] <- -temp[1,2]
+  temp[2,2] <- temp[1,1]
+  obs_geo_vel <- ROTANGVELEARTH * temp %*% obs_pos_vec
 
   # Convert to AU and AU/day
-  obs_geo_pos <- obs_geo_pos / 1.49597870e11
-  obs_geo_vel <- obs_geo_vel * (86400.0 / 1.49597870e11)
+  obs_geo_pos <- obs_geo_pos / M2AU
+  obs_geo_vel <- obs_geo_vel * (SEC2DAY / M2AU)
   
   # Get the precession matrix
   precess <- precession_matrix(jd)

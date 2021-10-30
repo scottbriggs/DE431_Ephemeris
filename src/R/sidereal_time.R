@@ -5,12 +5,9 @@ sidereal_time <- function(jd)
   # Number of centuries since J2000
   Tu <- (jd - EPOCHJ2000) / DAYSJULCENT
   
-  Tu2 <- Tu * Tu
-  Tu3 <- Tu2 * Tu
-  
-  # Greenwich mean standard time
-  theta_mean <- 67310.54841 + (876600 * 3600.0 + 8640184.812866) * Tu +
-    0.093104 * Tu2 - 6.2E-6 * Tu3
+  # Greenwich mean standard time in seconds
+  theta_mean <- 67310.54841 + Tu * ((876600.0 * 3600.0 + 8640184.812866)
+                                   + Tu * (0.093104 + Tu * (-0.0000062)))
   
   # Convert to radians
   theta_mean <- amodulo(theta_mean / 3600.0, 24) * HR2RAD

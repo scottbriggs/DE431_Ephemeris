@@ -14,12 +14,11 @@ observer_position_vector <- function(lat, long, height)
   sin2lat <- sinlat * sinlat
   C <- 1/sqrt(cos2lat + f * sin2lat)
   S <- f * C
-  h <- (height / 1000.0) / KM2AU
   
   pos_obs <- c(0.0, 0.0, 0.0)
-  pos_obs[1] <- (EARTHRADAU * C + h) * coslat * cos(long*DEG2RAD)
-  pos_obs[2] <- (EARTHRADAU * C + h) * coslat * sin(long*DEG2RAD)
-  pos_obs[3] <- (EARTHRADAU * S + h) * sinlat
+  pos_obs[1] <- (EARTHRADAU * C + height) * coslat * cos(long*DEG2RAD)
+  pos_obs[2] <- (EARTHRADAU * C + height) * coslat * sin(long*DEG2RAD)
+  pos_obs[3] <- (EARTHRADAU * S + height) * sinlat
   
   return(pos_obs)
 }

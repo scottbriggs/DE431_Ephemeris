@@ -22,6 +22,9 @@ RAD2HR <- 12.0 / PI
 # Astronomical Unit in Kilometers (KM)
 KM2AU <- 149597870.7
 
+# Astronomical Unit in Meters
+M2AU <- 1.49597870E11
+
 # Speed of Light in KM per sec
 CLIGHT <- 299792.458
 
