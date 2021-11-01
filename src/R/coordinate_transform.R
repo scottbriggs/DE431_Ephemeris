@@ -1,4 +1,3 @@
-
 # Calculate the observer position vector using the geodetic latitude (phi),
 # geodetic longitude (lambda), and the height above sea level
 # Phi is measured positive north of the equator and negative south of the equator in degrees
@@ -21,4 +20,41 @@ observer_position_vector <- function(lat, long, height)
   pos_obs[3] <- (EARTHRADAU * S + height) * sinlat
   
   return(pos_obs)
+}
+
+# Right Ascension and declination are in radians
+# Lambda and beta are in degrees
+equatorial2ecliptical <- function(ra, dec, obliquity)
+{
+  sin_obliq <- sin(obliquity)
+  cos_obliq <- cos(obliquity)
+  sin_dec <- sin(dec)
+  cos_dec <- cos(dec)
+  sin_ra <- sin(ra)
+  num <- sin_ra * cos_obliq + tan(dec) * sin_obliq
+  denom  <- cos(ra)
+  lambda <- atan(num/denom)
+  
+  beta <- asin(sin_dec * cos_obliq - cos_dec * sin_obliq * sin_ra)
+  
+  eclipt <- c(0.0, 0.0)
+  eclipt[1] <- lambda
+  eclipt[2] <- beta
+  
+  return(eclipt)
+}
+
+ecliptical2equatorial <- function(lambda, beta)
+{
+  
+}
+
+local_horizon <- function(local_hour_angle, obs_lat, dec)
+{
+  
+}
+
+horizon2equatorial <- function(azimuth, altitude, obs_lat)
+{
+  
 }

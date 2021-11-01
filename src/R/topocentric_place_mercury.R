@@ -35,7 +35,7 @@ topocentric_place_mercury <- function(jd, lat, long, height)
   # Calculate the number of julian centuries since the epoch of observation
   T_prime <- (jd - EPOCHJ2000) / DAYSJULCENT
   
-  # Calculate the mean anomaly of the Earth in its orbit, in radians, at the
+  # Calculate the mean anomaly of the Earth in its orbit in radians, at the
   # epoch of observation
   mean_anomaly <- (357.528 + 35999.050 * T_prime) * PI2 / 360
   
@@ -54,5 +54,75 @@ topocentric_place_mercury <- function(jd, lat, long, height)
   # Add the observer position and velocity vectors to the earth SSB vectors
   earth_ssb_au <- earth_ssb_au + G
   earth_ssb_au_day <- earth_ssb_au_day + G_dot
+  
+  # Extract the barycentric position and velocity of the Sun and convert to AU
+  # and AU/day
+  sun_ssb <- position_sun_ssb(t)
+  sun_ssb_au <- sun_ssb[,1] / KM2AU
+  
+  # Create the heliocentric position of the Earth and convert to AU and AU/day
+  helio_earth <- earth_ssb - sun_ssb
+  helio_earth_au <- helio_earth[,1] / KM2AU
+  
+  # Extract the barycentric position and velocity of Mercury and convert to AU
+  # and AU/day
+  mercury_ssb <- position_mercury_ssb(t)
+  mercury_ssb_au <- mercury_ssb[,1] / KM2AU
+  
+  # Calculate the geometric distance between the positions of the center of mass
+  # of Mercury and the Earth
+  tmp <- mercury_ssb_au - earth_ssb_au
+  d <- magnitude(tmp)
+  
+  # Calculate a first approximation to the light-travel time between Mercury
+  # and the Earth
+  tau = d / CAUD
+  
+  mercury_ssb <- position_mercury_ssb(t-tau)
+  mercury_ssb_au <- mercury_ssb[,1] / KM2AU
+  
+  sun_ssb <- position_sun_ssb(t-tau)
+  sun_ssb_au <- sun_ssb[,1] / KM2AU
+  
+  U <- mercury_ssb_au - earth_ssb_au
+  Q <- mercury_ssb_au - sun_ssb_au
+  
+  tau_prime <- magnitude(U) / CAUD
+  
+  mercury_ssb <- position_mercury_ssb(t-tau_prime)
+  mercury_ssb_au <- mercury_ssb[,1] / KM2AU
+  
+  sun_ssb <- position_sun_ssb(t-tau_prime)
+  sun_ssb_au <- sun_ssb[,1] / KM2AU
+  
+  U <- mercury_ssb_au - earth_ssb_au
+  Q <- mercury_ssb_au - sun_ssb_au
+  
+  # Calculate the relativistic deflection of light
+  E_mag <- magnitude(helio_earth_au)
+  U_uv <- unit_vector(U)
+  Q_uv <- unit_vector(Q)
+  E_uv <-unit_vector(helio_earth_au)
+  g1 <- MUC/E_mag
+  g2 <- 1 + dot_product(Q_uv, E_uv)
+  dot_UQ <- dot_product(U_uv, Q_uv)
+  dot_EU <- dot_product(E_uv, U_uv)
+  
+  U1 <- magnitude(U) * (U_uv + (g1/g2 * ((dot_UQ*E_uv) - (dot_EU*Q_uv))))
+  
+  # Calculate the aberration of light
+  U2 <- U1 + magnitude(U1) * (earth_ssb_au_day / CAUD)
+  
+  # Calculate and apply the precession matrix
+  U3 <- precess %*% U2
+  
+  # Calculate and apply the nutation matrix
+  U4 <- nut %*% U3
+  
+  # Calculate the right ascension and declination
+  right_asc <- ra(U4)
+  declination <- dec(U4)
+  
+  return (list(v1 = right_asc, v2 = declination, v3 = d))
   
 }

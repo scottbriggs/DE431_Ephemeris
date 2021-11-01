@@ -37,6 +37,19 @@ deg2dms <- function(deg)
     return(vec)
 }
 
+hms2hr <- function(hr, min, sec)
+{
+  sign <- 0
+  
+  if ( (hr<0) | (hr<0) | (hr<0) ){
+    sign <- -1
+  }else {
+    sign <- 1
+  }
+  
+  return( sign * (abs(hr) + abs(min) /60 + abs(sec) / 3600))
+}
+
 delta_t <- function(year, month)
 {
   delta_t <- 0.0
