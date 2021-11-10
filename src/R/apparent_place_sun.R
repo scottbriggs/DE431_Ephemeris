@@ -47,7 +47,5 @@ apparent_place_sun <- function(jd)
   nut <- nutation_matrix(t)
   U4 <- nut %*% U3
   
-  return (U4)
-  
-  return(res) 
+  return (c(U4[1], U4[2], U4[3], d))
 }

@@ -3,7 +3,6 @@
 # Phi is measured positive north of the equator and negative south of the equator in degrees
 # Lambda is positive for east longitudes and negative for west longitudes in degrees
 # Height is in meters
-
 observer_position_vector <- function(lat, long, height)
 {
   f <- (1-FLAT)*(1-FLAT)
@@ -22,39 +21,71 @@ observer_position_vector <- function(lat, long, height)
   return(pos_obs)
 }
 
-# Right Ascension and declination are in radians
-# Lambda and beta are in degrees
-equatorial2ecliptical <- function(ra, dec, obliquity)
+# Convert a position vector (x, y, z) to polar angles (r, phi, theta)
+polar_angles <- function(pos)
 {
-  sin_obliq <- sin(obliquity)
-  cos_obliq <- cos(obliquity)
-  sin_dec <- sin(dec)
-  cos_dec <- cos(dec)
-  sin_ra <- sin(ra)
-  num <- sin_ra * cos_obliq + tan(dec) * sin_obliq
-  denom  <- cos(ra)
-  lambda <- atan(num/denom)
+  rho_sqr <- pos[1] * pos[1] + pos[2] * pos[2]
+  m_r <- sqrt(rho_sqr + pos[3] * pos[3])
+  m_phi <- 0.0
   
-  beta <- asin(sin_dec * cos_obliq - cos_dec * sin_obliq * sin_ra)
+  if (pos[1] == 0.0 & pos[2] == 0.0) {
+    m_phi <- 0.0
+  } else {
+    m_phi <- atan2(pos[2], pos[1])
+  }
   
-  eclipt <- c(0.0, 0.0)
-  eclipt[1] <- lambda
-  eclipt[2] <- beta
+  if (m_phi < 0.0) {m_phi <- m_phi + PI2}
   
-  return(eclipt)
+  rho <- sqrt(rho_sqr)
+  m_theta <- 0.0
+  
+  if (pos[3] == 0.0 & rho == 0.0) {
+    m_theta <- 0.0
+  } else {
+    m_theta <- atan2(pos[3], rho)
+  }
+
+  return(c(m_r, m_phi, m_theta))
 }
 
-ecliptical2equatorial <- function(lambda, beta)
+# Convert equatorial position vector to ecliptical position vector
+# Obliquity is in radians
+equatorial2ecliptical <- function(pos, obliquity)
 {
+  pos1 <- rotation_matrix(1, obliquity) %*% pos
   
+  return(pos1)
 }
 
-local_horizon <- function(local_hour_angle, obs_lat, dec)
+# Convert ecliptical position vector to equatorial position vector
+# Obliquity is in radians
+ecliptical2equatorial <- function(pos, obliquity)
 {
+  pos1 <- rotation_matrix(1, -obliquity) %*% pos
   
+  return(pos1)
+}
+
+# Convert equatorial coordinates (hour angle, declination) in radians to
+# horizon coordinates (azimuth, altitude) in radians.
+equatorial2horizon <- function(hour_angle, dec, obs_lat)
+{
+  vec1 <- c(hour_angle, dec, 1)
+  vec2 <- rotation_matrix(2, (PI/2 - obs_lat)) %*% vec1
+  
+  azimuth <- vec2[1]
+  altitude <- vec2[2]
+  
+  return(c(azimuth, altitude))
 }
 
 horizon2equatorial <- function(azimuth, altitude, obs_lat)
 {
+  vec1 <- c(azimuth, altitude, 1)
+  vec2 <- rotation_matrix(2, -(PI/2 - obs_lat)) %*% vec1
   
+  hour_angle <- vec2[1]
+  dec <- vec2[2]
+  
+  return(c(hour_angle, dec))
 }

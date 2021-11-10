@@ -86,5 +86,5 @@ apparent_place_mercury <- function(jd)
   nut <- nutation_matrix(t)
   U4 <- nut %*% U3
   
-  return (U4)
+  return (c(U4[1], U4[2], U4[3], d))
 }

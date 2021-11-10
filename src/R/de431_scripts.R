@@ -47,6 +47,8 @@ source(here("src", "R", "apparent_place_sun.R"))
 source(here("src", "R", "coordinate_transform.R"))
 source(here("src", "R", "sidereal_time.R"))
 source(here("src", "R", "topocentric_place_mercury.R"))
+source(here("src", "R", "test_cases.R"))
+
 
 
 

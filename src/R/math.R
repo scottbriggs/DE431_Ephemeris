@@ -43,26 +43,6 @@ unit_vector <- function(x)
   return (result)
 }
 
-ra <- function(vec)
-{
-  # Convert right ascension to hours, mins, and secs
-  ra_tmp <- atan2(vec[2], vec[1]) * RAD2DEG
-  if (vec[2] < 0) {ra_tmp <- ra_tmp + 360.0}
-  ra_tmp <- ra_tmp / 15
-  ra <- deg2dms(ra_tmp)
-  
-  return (ra)
-}
-
-dec <- function(vec)
-{
-  # Convert declination to degs, mins, and secs
-  denom <- sqrt(vec[1] * vec[1] + vec[2] * vec[2])
-  dec <- deg2dms(atan2(vec[3], denom) * RAD2DEG)
-  
-  return (dec)
-}
-
 amodulo <- function(a, b)
 {
   return(x <- a - b * floor(a/b))
@@ -99,3 +79,32 @@ rotation_matrix <- function(axis, phi)
   return (mat)
 }
 
+quadratic_interpolation <- function(y_minus, y_0, y_plus)
+{
+  # Coefficients of interpolating parabola
+  a <- 0.5 * (y_plus + y_minus) - y_0
+  b <- 0.5 * (y_plus - y_minus)
+  c <- y_0
+  
+  # Find extreme value
+  xe <- -b / (2 * a)
+  ye <- (a * xe + b) * xe + c
+  dis <- b * b - 4 * a * c
+  
+  dx <- 0
+  num_roots <- 0
+  root1 <- 0
+  root2 <- 0
+  
+  if (dis >= 0) {
+    dx <- 0.5 * sqrt(dis) / fabs(a)
+    root1 <- xe - dx
+    root2 <- xe + dx
+    
+    if (fabs(root1) <= 1) {num_roots <- num_roots + 1}
+    if (fabs(root2) <= 1) {num_roots <- num_roots + 1}
+    if (root1 < -1) {root1 <- root2}
+  }
+  
+  return(c(num_roots, root1, root2))
+}

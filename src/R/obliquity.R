@@ -14,9 +14,7 @@ obliquity <- function(jd, nut)
   mean_obliquity <- (term1 + term2 + term3 + term4) * DEG2RAD
   true_obliquity <- mean_obliquity + nut[[2]]
   
-  obliq <- c(0.0, 0.0)
-  obliq[1] <- mean_obliquity
-  obliq[2] <- true_obliquity
+  obliq <- c(mean_obliquity, true_obliquity)
   
   return(obliq)
 }
