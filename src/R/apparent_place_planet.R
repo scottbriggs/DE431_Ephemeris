@@ -1,5 +1,5 @@
 
-apparent_place_jupiter <- function(jd)
+apparent_place_planet <- function(jd, func1)
 {
   # Calculate the number of julian centuries since the epoch of observation
   T_prime <- (jd - EPOCHJ2000) / DAYSJULCENT
@@ -27,38 +27,38 @@ apparent_place_jupiter <- function(jd)
   helio_earth <- earth_ssb - sun_ssb
   helio_earth_au <- helio_earth[,1] / KM2AU
   
-  # Extract the barycentric position and velocity of Jupiter
-  jupiter_ssb <- position_jupiter_ssb(t)
-  jupiter_ssb_au <- jupiter_ssb[,1] / KM2AU
+  # Extract the barycentric position and velocity of the planet
+  planet_ssb <- func1(t)
+  planet_ssb_au <- planet_ssb[,1] / KM2AU
   
   # Calculate the geometric distance between the positions of the center of mass
-  # of Jupiter and the Earth
-  tmp <- jupiter_ssb_au - earth_ssb_au
+  # of the planet and the Earth
+  tmp <- planet_ssb_au - earth_ssb_au
   d <- magnitude(tmp)
   
-  # Calculate a first approximation to the light-travel time between Jupiter
+  # Calculate a first approximation to the light-travel time between the planet
   # and the Earth
   tau = d / CAUD
   
-  jupiter_ssb <- position_jupiter_ssb(t-tau)
-  jupiter_ssb_au <- jupiter_ssb[,1] / KM2AU
+  planet_ssb <- func1(t-tau)
+  planet_ssb_au <- planet_ssb[,1] / KM2AU
   
   sun_ssb <- position_sun_ssb(t - tau)
   sun_ssb_au <- sun_ssb[,1] / KM2AU
   
-  U <- jupiter_ssb_au - earth_ssb_au
-  Q <- jupiter_ssb_au - sun_ssb_au
+  U <- planet_ssb_au - earth_ssb_au
+  Q <- planet_ssb_au - sun_ssb_au
   
   tau_prime <- magnitude(U) / CAUD
   
-  jupiter_ssb <- position_jupiter_ssb(t-tau_prime)
-  jupiter_ssb_au <- jupiter_ssb[,1] / KM2AU
+  planet_ssb <- func1(t-tau_prime)
+  planet_ssb_au <- planet_ssb[,1] / KM2AU
   
   sun_ssb <- position_sun_ssb(t - tau_prime)
   sun_ssb_au <- sun_ssb[,1] / KM2AU
   
-  U <- jupiter_ssb_au - earth_ssb_au
-  Q <- jupiter_ssb_au - sun_ssb_au
+  U <- planet_ssb_au - earth_ssb_au
+  Q <- planet_ssb_au - sun_ssb_au
   
   # Calculate the relativistic deflection of light
   E_mag <- magnitude(helio_earth_au)

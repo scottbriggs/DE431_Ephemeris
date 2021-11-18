@@ -106,5 +106,5 @@ quadratic_interpolation <- function(y_minus, y_0, y_plus)
     if (root1 < -1) {root1 <- root2}
   }
   
-  return(c(num_roots, root1, root2))
+  return(c(num_roots, root1, root2, xe, ye))
 }
