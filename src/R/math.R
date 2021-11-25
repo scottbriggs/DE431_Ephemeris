@@ -79,32 +79,15 @@ rotation_matrix <- function(axis, phi)
   return (mat)
 }
 
-quadratic_interpolation <- function(y_minus, y_0, y_plus)
+# Interpolate three values using the interpolating value n
+interpolate <- function(vec, n)
 {
-  # Coefficients of interpolating parabola
-  a <- 0.5 * (y_plus + y_minus) - y_0
-  b <- 0.5 * (y_plus - y_minus)
-  c <- y_0
+  # Take differences
+  a <- vec[2] - vec[1]
+  b <- vec[3] - vec[2]
+  c <- b - a
   
-  # Find extreme value
-  xe <- -b / (2 * a)
-  ye <- (a * xe + b) * xe + c
-  dis <- b * b - 4 * a * c
+  y <- vec[2] + n/2 * (a + b + n * c)
   
-  dx <- 0
-  num_roots <- 0
-  root1 <- 0
-  root2 <- 0
-  
-  if (dis >= 0) {
-    dx <- 0.5 * sqrt(dis) / fabs(a)
-    root1 <- xe - dx
-    root2 <- xe + dx
-    
-    if (fabs(root1) <= 1) {num_roots <- num_roots + 1}
-    if (fabs(root2) <= 1) {num_roots <- num_roots + 1}
-    if (root1 < -1) {root1 <- root2}
-  }
-  
-  return(c(num_roots, root1, root2, xe, ye))
+  return(y)
 }

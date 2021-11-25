@@ -115,4 +115,14 @@ delta_t <- function(year, month)
   return(delta_t)
 }
 
-
+# Calculates the julian day for both universal time and dynamical time by
+# calculating delta t. The month, day, and year given are universal time.
+jd_ut_dt <- function(month, day, year)
+{
+  jd_ut <- julian_day(month, day, year)
+  deltat <- delta_t(year, month)
+  jd_td <- jd_ut + deltat / 86400
+  
+  
+  return(c(jd_ut, jd_td))
+}

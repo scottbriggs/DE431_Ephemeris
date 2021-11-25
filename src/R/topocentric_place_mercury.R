@@ -1,11 +1,11 @@
 
-topocentric_place_mercury <- function(jd, lat, long, height)
+topocentric_place_mercury <- function(jd_ut, jd_td, lat, long, height)
 {
   # Observer position vector
   obs_pos_vec <- observer_position_vector(lat, long, height)
   
-  # Greenwich apparent sidereal time
-  gmst <- sidereal_time(jd)
+  # Greenwich mean sidereal time
+  gmst <- sidereal_time(jd_ut)
   
   # Geocentric position and velocity of the observer
   obs_geo_pos <- rotation_matrix(3, -gmst[[2]] * HR2RAD) %*% obs_pos_vec

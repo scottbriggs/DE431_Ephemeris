@@ -22,6 +22,8 @@ observer_position_vector <- function(lat, long, height)
 }
 
 # Convert a position vector (x, y, z) to polar angles (r, phi, theta)
+# phi is RA
+# theta is Dec
 polar_angles <- function(pos)
 {
   rho_sqr <- pos[1] * pos[1] + pos[2] * pos[2]
