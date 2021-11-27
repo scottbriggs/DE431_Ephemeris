@@ -27,7 +27,7 @@ rise_set_moon <- function(year, month, day, obs_lat, obs_long, tz)
     ra[3] <- ra[3] + PI2
   }
   
-  rs <- rise_set_events(jd_ut, obs_long, obs_lat, ra, dec, 90.8333, deltat)
+  rs <- rise_set_events(jd_ut, obs_long, obs_lat, ra, dec, 89.8667, deltat)
   
   rise_str <- "Rise"
   rise_time <- 24 * rs[[4]] + tz
