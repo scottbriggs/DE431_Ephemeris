@@ -1,4 +1,129 @@
 
+rise_set_moon <- function(year, month, day, obs_lat, obs_long, tz)
+{
+  # Get Julian Day for UT0
+  jd <- jd_ut_dt(month, day, year)
+  jd_ut <- jd[1]
+  jd_td <- jd[2]
+  
+  # Get delta t in seconds
+  deltat <- delta_t(year, month)
+  
+  # Get RA and DEC vectors
+  ap0 <- apparent_place_moon(jd_td-1)
+  equat0 <- polar_angles(ap0)
+  ap1 <- apparent_place_moon(jd_td)
+  equat1 <- polar_angles(ap1)
+  ap2 <- apparent_place_moon(jd_td+1)
+  equat2 <- polar_angles(ap2)
+  ra <- c(equat0[2], equat1[2], equat2[2])
+  dec <- c(equat0[3], equat1[3], equat2[3])
+  
+  # Check RA values on 24 hour boundary
+  if ((ra[2] < ra[1]) & (ra[3] > ra[2])){
+    ra[2] <- ra[2] + PI2
+    ra[3] <- ra[3] + PI2
+  }else if ((ra[2] > ra[1]) & (ra[3] < ra[2])){
+    ra[3] <- ra[3] + PI2
+  }
+  
+  rs <- rise_set_events(jd_ut, obs_long, obs_lat, ra, dec, 90.8333, deltat)
+  
+  rise_str <- "Rise"
+  rise_time <- 24 * rs[[4]] + tz
+  if (rise_time > 24) {
+    rise_time <- rise_time - 24
+    rise_str <- "Rise Occurs Tomorrow"
+  } else if (rise_time < 0) {
+    rise_time <- rise_time + 24
+    rise_str <- "Rise Occurred Yesterday"
+  }
+  
+  transit_str <- "Transit"
+  transit_time <- 24 * rs[[3]] + tz
+  if (transit_time > 24) {
+    transit_time <- transit_time - 24
+    transit_str <- "Transit Occurs Tomorrow"
+  } else if (transit_time < 0) {
+    transit_time <- transit_time + 24
+    transit_str <- "Transit Occurred Yesterday"
+  }
+  
+  set_str <- "Set"
+  set_time <- 24 * rs[[5]] + tz
+  if (set_time > 24) {
+    set_time <- set_time - 24
+    set_str <- "Set Occurs Tomorrow"
+  } else if (set_time < 0) {
+    set_time <- set_time + 24
+    set_str <- "Set Occurred Yesterday"
+  }
+  
+  return(list(rise_str, rise_time, transit_str, transit_time, set_str, set_time))
+}
+
+rise_set_sun <- function(year, month, day, obs_lat, obs_long, tz)
+{
+  # Get Julian Day for UT0
+  jd <- jd_ut_dt(month, day, year)
+  jd_ut <- jd[1]
+  jd_td <- jd[2]
+  
+  # Get delta t in seconds
+  deltat <- delta_t(year, month)
+  
+  # Get RA and DEC vectors
+  ap0 <- apparent_place_sun(jd_td-1)
+  equat0 <- polar_angles(ap0)
+  ap1 <- apparent_place_sun(jd_td)
+  equat1 <- polar_angles(ap1)
+  ap2 <- apparent_place_sun(jd_td+1)
+  equat2 <- polar_angles(ap2)
+  ra <- c(equat0[2], equat1[2], equat2[2])
+  dec <- c(equat0[3], equat1[3], equat2[3])
+  
+  # Check RA values on 24 hour boundary
+  if ((ra[2] < ra[1]) & (ra[3] > ra[2])){
+    ra[2] <- ra[2] + PI2
+    ra[3] <- ra[3] + PI2
+  }else if ((ra[2] > ra[1]) & (ra[3] < ra[2])){
+    ra[3] <- ra[3] + PI2
+  }
+  
+  rs <- rise_set_events(jd_ut, obs_long, obs_lat, ra, dec, 90.8333, deltat)
+  
+  rise_str <- "Rise"
+  rise_time <- 24 * rs[[4]] + tz
+  if (rise_time > 24) {
+    rise_time <- rise_time - 24
+    rise_str <- "Rise Occurs Tomorrow"
+  } else if (rise_time < 0) {
+    rise_time <- rise_time + 24
+    rise_str <- "Rise Occurred Yesterday"
+  }
+  
+  transit_str <- "Transit"
+  transit_time <- 24 * rs[[3]] + tz
+  if (transit_time > 24) {
+    transit_time <- transit_time - 24
+    transit_str <- "Transit Occurs Tomorrow"
+  } else if (transit_time < 0) {
+    transit_time <- transit_time + 24
+    transit_str <- "Transit Occurred Yesterday"
+  }
+  
+  set_str <- "Set"
+  set_time <- 24 * rs[[5]] + tz
+  if (set_time > 24) {
+    set_time <- set_time - 24
+    set_str <- "Set Occurs Tomorrow"
+  } else if (set_time < 0) {
+    set_time <- set_time + 24
+    set_str <- "Set Occurred Yesterday"
+  }
+  
+  return(list(rise_str, rise_time, transit_str, transit_time, set_str, set_time))
+}
 
 rise_set_planet <- function(year, month, day, obs_lat, obs_long, func1, tz)
 {
@@ -8,7 +133,7 @@ rise_set_planet <- function(year, month, day, obs_lat, obs_long, func1, tz)
   jd_td <- jd[2]
   
   # Get delta t in seconds
-  deltat <- delta_t(1988, 3)
+  deltat <- delta_t(year, month)
   
   # Get RA and DEC vectors
   ap0 <- apparent_place_planet(jd_td-1, func1)
