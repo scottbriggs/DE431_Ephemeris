@@ -37,6 +37,24 @@ deg2dms <- function(deg)
     return(vec)
 }
 
+# Convert decimal degrees to degrees and minutes
+deg2dm <- function(deg)
+{
+  x <- abs(deg)
+  D <- as.integer(x)
+  x <- (x - D) * 60.0
+  M <- as.integer(x)
+  
+  if (deg < 0.0) {
+    if (D != 0) {D <- D * -1}
+    else if (M != 0) {M <- M * -1}
+  }
+  
+  vec <- c(D, M)
+  
+  return(vec)
+}
+
 hms2hr <- function(hr, min, sec)
 {
   sign <- 0
